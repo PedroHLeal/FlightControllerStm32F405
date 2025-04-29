@@ -1,0 +1,1 @@
+../Core/Src/Drone/drone.cpp:13:6:void runDrone(SPI_HandleTypeDef*)	64	static

@@ -1,0 +1,16 @@
+/*
+ * constants.h
+ *
+ *  Created on: Apr 29, 2025
+ *      Author: pedroleal
+ */
+
+#ifndef SRC_CONSTANTS_CONSTANTS_H_
+#define SRC_CONSTANTS_CONSTANTS_H_
+
+
+#define DEG_TO_RAD 0.017453292519943295769236907684886
+#define RAD_TO_DEG 57.295779513082320876798154814105
+
+
+#endif /* SRC_CONSTANTS_CONSTANTS_H_ */
