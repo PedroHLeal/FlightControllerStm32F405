@@ -8,8 +8,9 @@
 #include "../Sensors/Gyro.h"
 #include "../Constants/constants.h"
 
-Gyro::Gyro(SPI_HandleTypeDef *hspi1) {
-	this->hspi1 = hspi1;
+Gyro::Gyro() {
+	Stm32Handlers* stm32h = Stm32HandlersSingleton::getInstance();
+	this->hspi1 = stm32h->hspi1;
 	this->accelInit();
 }
 

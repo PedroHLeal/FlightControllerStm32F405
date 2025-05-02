@@ -315,32 +315,12 @@ static int8_t CDC_TransmitCplt_FS(uint8_t *Buf, uint32_t *Len, uint8_t epnum)
   return result;
 }
 
-
+/* USER CODE BEGIN PRIVATE_FUNCTIONS_IMPLEMENTATION */
 int _write(int file, char *ptr, int len)
 {
-    if (hUsbDeviceFS.dev_state != USBD_STATE_CONFIGURED)
-        return 0; // USB not ready
-
     CDC_Transmit_FS((uint8_t*)ptr, len);
-
-    // Important: wait until USB sends, otherwise it can be missed
-    while (((USBD_CDC_HandleTypeDef *)hUsbDeviceFS.pClassData)->TxState != 0)
-    {
-        // Wait until transmission is done
-    }
-
     return len;
 }
-
-int fputc(int ch, FILE *f)
-{
-    uint8_t temp = ch;
-    CDC_Transmit_FS(&temp, 1);
-    return ch;
-}
-
-/* USER CODE BEGIN PRIVATE_FUNCTIONS_IMPLEMENTATION */
-
 /* USER CODE END PRIVATE_FUNCTIONS_IMPLEMENTATION */
 
 /**

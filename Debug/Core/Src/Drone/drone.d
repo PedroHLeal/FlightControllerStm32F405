@@ -26,10 +26,13 @@ Core/Src/Drone/drone.o: ../Core/Src/Drone/drone.cpp \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_spi.h \
+ ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pcd.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usb.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pcd_ex.h \
- ../Core/Src/Drone/../Sensors/Gyro.h
+ ../Core/Src/Drone/../Constants/constants.h \
+ ../Core/Src/Drone/../Sensors/Gyro.h \
+ ../Core/Src/Drone/../Sensors/mtp02p.h ../Core/Src/Drone/../Comms/hc-06.h
 ../Core/Src/Drone/drone.h:
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
@@ -58,7 +61,11 @@ Core/Src/Drone/drone.o: ../Core/Src/Drone/drone.cpp \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_spi.h:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pcd.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usb.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pcd_ex.h:
+../Core/Src/Drone/../Constants/constants.h:
 ../Core/Src/Drone/../Sensors/Gyro.h:
+../Core/Src/Drone/../Sensors/mtp02p.h:
+../Core/Src/Drone/../Comms/hc-06.h:

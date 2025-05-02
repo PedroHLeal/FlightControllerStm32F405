@@ -1,0 +1,8 @@
+../Core/Src/Sensors/../Constants/constants.h:25:27:static Stm32Handlers* Stm32HandlersSingleton::getInstance()	8	static
+../Core/Src/Sensors/mtp02p.cpp:14:6:bool MTF02P::micolink_decode(uint8_t)	16	static
+../Core/Src/Sensors/mtp02p.cpp:44:6:bool MTF02P::micolink_check_sum(MICOLINK_MSG_t*)	96	static
+../Core/Src/Sensors/mtp02p.cpp:61:6:bool MTF02P::micolink_parse_char(MICOLINK_MSG_t*, uint8_t)	24	static
+../Core/Src/Sensors/mtp02p.cpp:124:1:MTF02P::MTF02P()	24	static
+../Core/Src/Sensors/mtp02p.cpp:129:6:void MTF02P::update(uint8_t)	16	static
+../Core/Src/Sensors/mtp02p.cpp:133:7:float MTF02P::calibrateX(float)	16	static
+../Core/Src/Sensors/mtp02p.cpp:139:7:float MTF02P::calibrateY(float)	16	static

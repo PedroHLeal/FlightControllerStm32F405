@@ -21,7 +21,7 @@ public:
 	float accelAngle[3] = { 0 };
 	float rotationAngle[3] = { 0 };
 	float inertialAccel[3] = { 0 };
-	Gyro(SPI_HandleTypeDef *hspi1);
+	Gyro();
 	uint8_t accelReadRegister(uint8_t reg);
 	void accelWriteRegister(uint8_t reg, uint8_t data);
 	void accelReadData();
@@ -33,4 +33,19 @@ private:
 	void accelInit();
 };
 
+class GyroSingleton
+{
+public:
+    static Gyro *getInstance()
+    {
+        if (g == nullptr)
+        {
+            g = new Gyro();
+        }
+        return g;
+    }
+
+private:
+    static Gyro *g;
+};
 #endif /* SRC_BMI270_BMI270_H_ */

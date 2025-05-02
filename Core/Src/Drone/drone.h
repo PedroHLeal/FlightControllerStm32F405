@@ -10,7 +10,7 @@
 
 #include "main.h"
 
-void runDrone(SPI_HandleTypeDef *hspi1);
-
+void runDrone(SPI_HandleTypeDef *hspi1, UART_HandleTypeDef *huart3,
+		UART_HandleTypeDef *huart6);
 
 #endif /* SRC_DRONE_DRONE_H_ */

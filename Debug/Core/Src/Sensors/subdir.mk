@@ -5,13 +5,16 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
-../Core/Src/Sensors/Gyro.cpp 
+../Core/Src/Sensors/Gyro.cpp \
+../Core/Src/Sensors/mtp02p.cpp 
 
 OBJS += \
-./Core/Src/Sensors/Gyro.o 
+./Core/Src/Sensors/Gyro.o \
+./Core/Src/Sensors/mtp02p.o 
 
 CPP_DEPS += \
-./Core/Src/Sensors/Gyro.d 
+./Core/Src/Sensors/Gyro.d \
+./Core/Src/Sensors/mtp02p.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
@@ -21,7 +24,7 @@ Core/Src/Sensors/%.o Core/Src/Sensors/%.su Core/Src/Sensors/%.cyclo: ../Core/Src
 clean: clean-Core-2f-Src-2f-Sensors
 
 clean-Core-2f-Src-2f-Sensors:
-	-$(RM) ./Core/Src/Sensors/Gyro.cyclo ./Core/Src/Sensors/Gyro.d ./Core/Src/Sensors/Gyro.o ./Core/Src/Sensors/Gyro.su
+	-$(RM) ./Core/Src/Sensors/Gyro.cyclo ./Core/Src/Sensors/Gyro.d ./Core/Src/Sensors/Gyro.o ./Core/Src/Sensors/Gyro.su ./Core/Src/Sensors/mtp02p.cyclo ./Core/Src/Sensors/mtp02p.d ./Core/Src/Sensors/mtp02p.o ./Core/Src/Sensors/mtp02p.su
 
 .PHONY: clean-Core-2f-Src-2f-Sensors
 
