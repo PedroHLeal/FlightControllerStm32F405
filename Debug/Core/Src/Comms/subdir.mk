@@ -5,12 +5,15 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
+../Core/Src/Comms/ble.cpp \
 ../Core/Src/Comms/hc-06.cpp 
 
 OBJS += \
+./Core/Src/Comms/ble.o \
 ./Core/Src/Comms/hc-06.o 
 
 CPP_DEPS += \
+./Core/Src/Comms/ble.d \
 ./Core/Src/Comms/hc-06.d 
 
 
@@ -21,7 +24,7 @@ Core/Src/Comms/%.o Core/Src/Comms/%.su Core/Src/Comms/%.cyclo: ../Core/Src/Comms
 clean: clean-Core-2f-Src-2f-Comms
 
 clean-Core-2f-Src-2f-Comms:
-	-$(RM) ./Core/Src/Comms/hc-06.cyclo ./Core/Src/Comms/hc-06.d ./Core/Src/Comms/hc-06.o ./Core/Src/Comms/hc-06.su
+	-$(RM) ./Core/Src/Comms/ble.cyclo ./Core/Src/Comms/ble.d ./Core/Src/Comms/ble.o ./Core/Src/Comms/ble.su ./Core/Src/Comms/hc-06.cyclo ./Core/Src/Comms/hc-06.d ./Core/Src/Comms/hc-06.o ./Core/Src/Comms/hc-06.su
 
 .PHONY: clean-Core-2f-Src-2f-Comms
 

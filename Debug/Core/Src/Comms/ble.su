@@ -1,0 +1,3 @@
+../Core/Src/Comms/ble.cpp:14:6:void getRemoteCommands(uint8_t*)	16	static
+../Core/Src/Comms/ble.cpp:21:6:void initControllerBLE()	8	static
+../Core/Src/Comms/ble.cpp:25:21:ControllerReadings* getReadingsBLE()	4	static

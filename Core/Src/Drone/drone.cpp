@@ -7,54 +7,73 @@
 
 #include "drone.h"
 #include <stdio.h>
-#include "../Constants/constants.h"
 #include "../Sensors/Gyro.h"
 #include "../Sensors/mtp02p.h"
-#include "../Comms/hc-06.h"
+#include "../Comms/ble.h"
+#include "../Calcs/estimations.h"
+#include "../motors.h"
+#include "../pid.h"
+#include "../timer.h"
 
 Stm32Handlers *Stm32HandlersSingleton::stm32h = nullptr;
 MTF02P *mtf02 = MTF02PSingleton::getMTF02PInstance();
-
-uint8_t rxuart3byte = 0x00, rxuart6byte = 0x00;
+ControllerReadings *readings;
+DronePosition p;
+uint8_t rxuart3byte = 0x00, rxuart2byte = 0x00;
+uint8_t rxuart4byte[5];
 
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
-
     if (huart->Instance == USART3) {
-    	getRemoteCommands(rxuart3byte);
-    	ControllerReadings *r = getReadings();
-    	printf("%f %f %f %d\n", r->targetThrottle, r->setPointPitch, r->setPointRoll, r->armed);
-		HAL_UART_Receive_IT(huart, &rxuart3byte, 1);  // Re-arm interrupt
-    }
-
-    if (huart->Instance == USART6) {
-    	printf("%02X\n", rxuart6byte);
-//    	mtf02->update(rxuart6byte);
-    	HAL_UART_Receive_IT(huart, &rxuart6byte, 1);  // Re-arm interrupt
+    	mtf02->update(rxuart3byte);
+    	HAL_UART_Receive_IT(huart, &rxuart3byte, 1);  // Re-arm interrupt
 	}
 
+	if (huart->Instance == UART4) {
+		getRemoteCommands(rxuart4byte);
+		HAL_UART_Receive_IT(huart, rxuart4byte, 5);  // Re-arm interrupt
+	}
 }
 
-void runDrone(SPI_HandleTypeDef *hspi1, UART_HandleTypeDef *huart3,
-		UART_HandleTypeDef *huart6) {
-	uint32_t time_start = 0;
+void runDrone(Stm32Handlers *stm32Handlers) {
+	Motors *motors = MotorsSingleton::getInstance(stm32Handlers->htim3, stm32Handlers->htim4);
 
-	// THIS SET A CLASS TO CONTAIN ALL STM32 HANDLERS TO BE ACCESSED GLOBALLY
-	Stm32Handlers* stm32h = Stm32HandlersSingleton::getInstance();
-	stm32h->hspi1 = hspi1;
-	stm32h->huart3 = huart3;
-	stm32h->huart6 = huart6;
+	dwt_init();
+	initControllerBLE();
+	readings = getReadingsBLE();
+	readings->armed = 0;
 
 	Gyro *gyro = new Gyro();
+	HAL_Delay(1000);
+	while(!gyro->calibrate());
 
-	HAL_UART_Receive_IT(stm32h->huart3, &rxuart3byte, 1);
-	HAL_UART_Receive_IT(stm32h->huart6, &rxuart6byte, 1);
+	motors->startup();
+//	motors->testMotors();
 
-	while (gyro->accelReadRegister(0x75) != 0xAF)
-		;
+	Estimator *e = new Estimator();
+
+	HAL_UART_Receive_IT(stm32Handlers->huart3, &rxuart3byte, 1);
+	HAL_UART_Receive_IT(stm32Handlers->huart4, rxuart4byte, 5);
+
+	p.usePositioning = false;
+	p.useZPositioning = false;
+
 	while (1) {
-		float dt = (HAL_GetTick() - time_start) / 1000.0;
+		float dt = dwt_dt_s(HAL_RCC_GetHCLKFreq());
+		if (!readings->armed) {
+			motors->writeAll(0);
+			resetPid(&p);
+			continue;
+		}
+
 		gyro->updateData(dt);
-		time_start = HAL_GetTick();
-		HAL_Delay(10);
+		e->calculateEstimations(gyro, mtf02, dt);
+		calculatePidThrottle(&p, readings, e);
+		calculatePidPitch(&p, readings, gyro);
+		calculatePidRoll(&p, readings, gyro);
+		calculatePidPitchRate(&p, readings, gyro);
+		calculatePidRollRate(&p, readings, gyro);
+		calculatePidYaw(&p, gyro);
+		motors->writeDronePosition(&p);
 	}
 }
+

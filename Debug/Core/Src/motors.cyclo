@@ -1,0 +1,10 @@
+../Core/Src/Constants/constants.h:20:21:float map(float, float, float, float, float)	1
+../Core/Src/motors.cpp:11:1:Motors::Motors(TIM_HandleTypeDef*, TIM_HandleTypeDef*)	1
+../Core/Src/motors.cpp:21:6:void Motors::writeFL(int)	3
+../Core/Src/motors.cpp:31:6:void Motors::writeFR(int)	3
+../Core/Src/motors.cpp:41:6:void Motors::writeRL(int)	3
+../Core/Src/motors.cpp:51:6:void Motors::writeRR(int)	3
+../Core/Src/motors.cpp:61:6:void Motors::writeAll(int)	1
+../Core/Src/motors.cpp:70:6:void Motors::startup()	1
+../Core/Src/motors.cpp:86:6:void Motors::writeDronePosition(DronePosition*)	9
+../Core/Src/motors.cpp:106:6:void Motors::testMotors()	1

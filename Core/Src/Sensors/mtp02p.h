@@ -67,21 +67,24 @@ typedef struct
 class MTF02P
 {
 private:
-    MICOLINK_MSG_t msg;
 	UART_HandleTypeDef *huart6;
 
     float currentCalibrationSumX = 0, currentCalibrationSumY = 0;
     int countX = 0, countY = 0;
+    int lastElapsedTime = 0;
 
     bool micolink_decode(uint8_t data);
     bool micolink_check_sum(MICOLINK_MSG_t* msg);
     bool micolink_parse_char(MICOLINK_MSG_t* msg, uint8_t data);
 public:
+    MICOLINK_MSG_t msg;
+
     MICOLINK_PAYLOAD_RANGE_SENSOR_t payload;
     MTF02P();
     void update(uint8_t c);
     float calibrateX(float gY);
     float calibrateY(float gY);
+    void dumpData();
 };
 
 class MTF02PSingleton

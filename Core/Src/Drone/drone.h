@@ -6,11 +6,8 @@
  */
 
 #ifndef SRC_DRONE_DRONE_H_
-#define SRC_DRONE_DRONE_H_
+#include "../Constants/constants.h"
 
-#include "main.h"
-
-void runDrone(SPI_HandleTypeDef *hspi1, UART_HandleTypeDef *huart3,
-		UART_HandleTypeDef *huart6);
+void runDrone(Stm32Handlers *stm32Handlers);
 
 #endif /* SRC_DRONE_DRONE_H_ */

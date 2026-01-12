@@ -38,6 +38,8 @@ CPP_DEPS :=
 
 # Every subdirectory with source files must be described here
 SUBDIRS := \
+Core/Src/Calcs/DSPFilters/src \
+Core/Src/Calcs \
 Core/Src/Comms \
 Core/Src/Drone \
 Core/Src/Sensors \

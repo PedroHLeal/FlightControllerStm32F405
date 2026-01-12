@@ -1,6 +1,7 @@
-../Core/Src/Drone/../Constants/constants.h:25:27:static Stm32Handlers* Stm32HandlersSingleton::getInstance()	2
-../Core/Src/Drone/../Sensors/mtp02p.h:91:20:static MTF02P* MTF02PSingleton::getMTF02PInstance()	2
-../Core/Src/Drone/drone.cpp:20:6:void HAL_UART_RxCpltCallback(UART_HandleTypeDef*)	3
-../Core/Src/Drone/drone.cpp:37:6:void runDrone(SPI_HandleTypeDef*, UART_HandleTypeDef*, UART_HandleTypeDef*)	2
-../Core/Src/Drone/drone.cpp:60:1:void __static_initialization_and_destruction_0(int, int)	3
-../Core/Src/Drone/drone.cpp:60:1:cpp)	1
+../Core/Src/Drone/../Sensors/mtp02p.h:94:20:static MTF02P* MTF02PSingleton::getMTF02PInstance()	2
+../Core/Src/Drone/../motors.h:39:18:static Motors* MotorsSingleton::getInstance(TIM_HandleTypeDef*, TIM_HandleTypeDef*)	2
+../Core/Src/Drone/drone.cpp:25:6:void HAL_UART_RxCpltCallback(UART_HandleTypeDef*)	3
+../Core/Src/Drone/../Calcs/estimations.h:9:7:Estimator::Estimator()	1
+../Core/Src/Drone/drone.cpp:37:6:void runDrone(Stm32Handlers*)	3
+../Core/Src/Drone/drone.cpp:78:1:void __static_initialization_and_destruction_0(int, int)	3
+../Core/Src/Drone/drone.cpp:78:1:cpp)	1

@@ -1,0 +1,9 @@
+/Applications/STM32CubeIDE.app/Contents/Eclipse/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.macos64_1.1.0.202410301201/tools/arm-none-eabi/include/c++/12.3.1/cmath:463:3:constexpr float std::sqrt(float)	16	static
+../Core/Src/Calcs/DSPFilters/src/RunningStatistics.cpp:7:1:RunningStatistics::RunningStatistics()	16	static
+../Core/Src/Calcs/DSPFilters/src/RunningStatistics.cpp:12:6:void RunningStatistics::setWindowSecs(float)	16	static
+../Core/Src/Calcs/DSPFilters/src/RunningStatistics.cpp:19:6:void RunningStatistics::setInitialValue(float, float)	24	static
+../Core/Src/Calcs/DSPFilters/src/RunningStatistics.cpp:24:6:void RunningStatistics::input(float)	16	static
+../Core/Src/Calcs/DSPFilters/src/RunningStatistics.cpp:29:7:float RunningStatistics::mean()	16	static
+../Core/Src/Calcs/DSPFilters/src/RunningStatistics.cpp:33:7:float RunningStatistics::variance()	32	static
+../Core/Src/Calcs/DSPFilters/src/RunningStatistics.cpp:42:7:float RunningStatistics::sigma()	16	static
+../Core/Src/Calcs/DSPFilters/src/RunningStatistics.cpp:52:7:float RunningStatistics::CV()	24	static

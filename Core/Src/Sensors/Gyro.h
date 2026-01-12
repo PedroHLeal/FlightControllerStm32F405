@@ -27,7 +27,10 @@ public:
 	void accelReadData();
 	void updateData(float dt);
 	void processRawData(float dt);
+	void dumpData();
+	bool calibrate();
 private:
+	int calibrationRounds = 3000, currentRound = 0;
 	SPI_HandleTypeDef *hspi1;
 	float accelCalibration[3] = { 0 };
 	void accelInit();

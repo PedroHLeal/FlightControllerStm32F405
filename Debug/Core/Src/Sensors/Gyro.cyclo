@@ -1,11 +1,13 @@
 /Applications/STM32CubeIDE.app/Contents/Eclipse/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.macos64_1.1.0.202410301201/tools/arm-none-eabi/include/c++/12.3.1/cmath:125:3:constexpr float std::atan(float)	1
 /Applications/STM32CubeIDE.app/Contents/Eclipse/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.macos64_1.1.0.202410301201/tools/arm-none-eabi/include/c++/12.3.1/cmath:144:3:constexpr float std::atan2(float, float)	1
 /Applications/STM32CubeIDE.app/Contents/Eclipse/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.macos64_1.1.0.202410301201/tools/arm-none-eabi/include/c++/12.3.1/cmath:463:3:constexpr float std::sqrt(float)	1
-../Core/Src/Sensors/../Constants/constants.h:25:27:static Stm32Handlers* Stm32HandlersSingleton::getInstance()	2
-../Core/Src/Sensors/Gyro.cpp:11:1:Gyro::Gyro()	1
-../Core/Src/Sensors/Gyro.cpp:17:6:void Gyro::accelInit()	1
-../Core/Src/Sensors/Gyro.cpp:35:9:uint8_t Gyro::accelReadRegister(uint8_t)	1
-../Core/Src/Sensors/Gyro.cpp:48:6:void Gyro::accelWriteRegister(uint8_t, uint8_t)	1
-../Core/Src/Sensors/Gyro.cpp:55:6:void Gyro::accelReadData()	1
-../Core/Src/Sensors/Gyro.cpp:75:6:void Gyro::updateData(float)	1
-../Core/Src/Sensors/Gyro.cpp:80:6:void Gyro::processRawData(float)	1
+../Core/Src/Sensors/../Constants/constants.h:37:27:static Stm32Handlers* Stm32HandlersSingleton::getInstance()	2
+../Core/Src/Sensors/Gyro.cpp:12:1:Gyro::Gyro()	1
+../Core/Src/Sensors/Gyro.cpp:18:6:void Gyro::accelInit()	1
+../Core/Src/Sensors/Gyro.cpp:28:9:uint8_t Gyro::accelReadRegister(uint8_t)	1
+../Core/Src/Sensors/Gyro.cpp:41:6:void Gyro::accelWriteRegister(uint8_t, uint8_t)	1
+../Core/Src/Sensors/Gyro.cpp:48:6:void Gyro::accelReadData()	2
+../Core/Src/Sensors/Gyro.cpp:66:6:void Gyro::updateData(float)	1
+../Core/Src/Sensors/Gyro.cpp:71:6:void Gyro::processRawData(float)	1
+../Core/Src/Sensors/Gyro.cpp:117:6:bool Gyro::calibrate()	2
+../Core/Src/Sensors/Gyro.cpp:146:6:void Gyro::dumpData()	1

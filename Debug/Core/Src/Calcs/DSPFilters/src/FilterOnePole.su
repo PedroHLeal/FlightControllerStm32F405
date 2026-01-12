@@ -1,0 +1,12 @@
+../Core/Src/Calcs/DSPFilters/src/FilterOnePole.cpp:6:1:FilterOnePole::FilterOnePole(FILTER_TYPE, float, float, long int)	32	static
+../Core/Src/Calcs/DSPFilters/src/FilterOnePole.cpp:10:6:void FilterOnePole::setFilter(FILTER_TYPE, float, float, long int)	32	static
+../Core/Src/Calcs/DSPFilters/src/FilterOnePole.cpp:24:7:float FilterOnePole::input(float, long int)	40	static
+../Core/Src/Calcs/DSPFilters/src/FilterOnePole.cpp:55:6:void FilterOnePole::setFrequency(float)	16	static
+../Core/Src/Calcs/DSPFilters/src/FilterOnePole.cpp:59:6:void FilterOnePole::setTau(float)	16	static
+../Core/Src/Calcs/DSPFilters/src/FilterOnePole.cpp:63:7:float FilterOnePole::output()	24	static
+../Core/Src/Calcs/DSPFilters/src/FilterOnePole.cpp:132:6:void FilterOnePole::setToNewValue(float)	16	static
+../Core/Src/Calcs/DSPFilters/src/FilterOnePole.cpp:139:1:FilterOnePoleCascade::FilterOnePoleCascade(float, float)	24	static
+../Core/Src/Calcs/DSPFilters/src/FilterOnePole.cpp:144:6:void FilterOnePoleCascade::setRiseTime(float)	24	static
+../Core/Src/Calcs/DSPFilters/src/FilterOnePole.cpp:151:7:float FilterOnePoleCascade::input(float)	24	static
+../Core/Src/Calcs/DSPFilters/src/FilterOnePole.cpp:157:6:void FilterOnePoleCascade::setToNewValue(float)	16	static
+../Core/Src/Calcs/DSPFilters/src/FilterOnePole.cpp:162:7:float FilterOnePoleCascade::output()	16	static

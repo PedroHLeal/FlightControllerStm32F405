@@ -1,0 +1,2 @@
+../Core/Src/Calcs/DSPFilters/src/FilterDerivative.cpp:4:7:float FilterDerivative::input(float, long int)	32	static
+../Core/Src/Calcs/DSPFilters/src/FilterDerivative.cpp:21:7:float FilterDerivative::output()	16	static

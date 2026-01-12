@@ -122,8 +122,6 @@ bool MTF02P::micolink_parse_char(MICOLINK_MSG_t *msg, uint8_t data) {
 }
 
 MTF02P::MTF02P() {
-	Stm32Handlers *stm32h = Stm32HandlersSingleton::getInstance();
-	this->huart6 = stm32h->huart6;
 }
 
 void MTF02P::update(uint8_t c) {
@@ -140,4 +138,8 @@ float MTF02P::calibrateY(float gX) {
 	countY++;
 	currentCalibrationSumY += gX != 0 ? payload.flow_vel_y / gX : 0;
 	return currentCalibrationSumY / countY;
+}
+
+void MTF02P::dumpData() {
+	printf("%d %d %d %d\n", payload.flow_quality, payload.distance, payload.flow_vel_x, payload.flow_vel_y);
 }

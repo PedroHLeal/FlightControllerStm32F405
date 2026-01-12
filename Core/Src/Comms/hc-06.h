@@ -9,13 +9,7 @@
 #define SRC_COMMS_HC_06_H_
 
 #include "main.h"
-
-typedef struct
-{
-    float targetThrottle = 0, setPointPitch = 0, setPointRoll = 0;
-    float desiredHeight = 0;
-    bool armed = false;
-} ControllerReadings;
+#include "remote_controller.h"
 
 void getRemoteCommands(uint8_t value);
 ControllerReadings* getReadings();

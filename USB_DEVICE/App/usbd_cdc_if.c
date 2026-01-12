@@ -316,9 +316,10 @@ static int8_t CDC_TransmitCplt_FS(uint8_t *Buf, uint32_t *Len, uint8_t epnum)
 }
 
 /* USER CODE BEGIN PRIVATE_FUNCTIONS_IMPLEMENTATION */
-int _write(int file, char *ptr, int len)
-{
-    CDC_Transmit_FS((uint8_t*)ptr, len);
+int _write(int file, char *data, int len) {
+    while (CDC_Transmit_FS((uint8_t*)data, len) == USBD_BUSY) {
+        // Optional: wait or timeout
+    }
     return len;
 }
 /* USER CODE END PRIVATE_FUNCTIONS_IMPLEMENTATION */

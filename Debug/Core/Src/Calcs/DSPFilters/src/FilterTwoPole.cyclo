@@ -1,0 +1,8 @@
+/Applications/STM32CubeIDE.app/Contents/Eclipse/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.macos64_1.1.0.202410301201/tools/arm-none-eabi/include/c++/12.3.1/bits/std_abs.h:75:3:constexpr float std::abs(float)	1
+../Core/Src/Calcs/DSPFilters/src/FilterTwoPole.cpp:67:1:FilterTwoPole::FilterTwoPole(float, float, float, long int)	2
+../Core/Src/Calcs/DSPFilters/src/FilterTwoPole.cpp:81:6:void FilterTwoPole::setQ(float)	3
+../Core/Src/Calcs/DSPFilters/src/FilterTwoPole.cpp:88:6:void FilterTwoPole::setFrequency0(float)	1
+../Core/Src/Calcs/DSPFilters/src/FilterTwoPole.cpp:92:6:void FilterTwoPole::setAsFilter(OSCILLATOR_TYPE, float, float)	3
+../Core/Src/Calcs/DSPFilters/src/FilterTwoPole.cpp:126:7:float FilterTwoPole::input(float, long int)	5
+../Core/Src/Calcs/DSPFilters/src/FilterTwoPole.cpp:162:7:float FilterTwoPole::output()	1
+../Core/Src/Calcs/DSPFilters/src/FilterTwoPole.cpp:170:7:float FilterTwoPole::getMaxAmp()	1
