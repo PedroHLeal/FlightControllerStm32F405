@@ -7,6 +7,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "../Constants/constants.h"
 #include "ble.h"
 
 ControllerReadings *readingsBLE;
@@ -14,8 +15,8 @@ ControllerReadings *readingsBLE;
 void getRemoteCommands(uint8_t *values) {
 	readingsBLE->armed = values[0];
 	readingsBLE->targetThrottle = values[1] - 100;
-	readingsBLE->setPointRoll = values[2] - 7;
-	readingsBLE->setPointPitch = values[3] - 7;
+	readingsBLE->setPointRoll = constrain(-(values[2] - 30) * 3, -25, 25);
+	readingsBLE->setPointPitch = constrain((values[3] - 30) * 3, -25, 25);
 }
 
 void initControllerBLE() {

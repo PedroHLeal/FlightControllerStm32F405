@@ -10,7 +10,7 @@
 ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash.c:493:19:HAL_FLASH_OB_Launch	8	static
 ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash.c:530:10:HAL_FLASH_GetError	4	static
 ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash.c:544:19:FLASH_WaitForLastOperation	24	static
-../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash.c:604:13:FLASH_Program_DoubleWord	24	static,ignoring_inline_asm
+../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash.c:604:13:FLASH_Program_DoubleWord	24	static
 ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash.c:638:13:FLASH_Program_Word	16	static
 ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash.c:663:13:FLASH_Program_HalfWord	16	static
 ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash.c:688:13:FLASH_Program_Byte	16	static

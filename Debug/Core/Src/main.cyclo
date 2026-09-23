@@ -1,11 +1,11 @@
-../Core/Src/Drone/../Constants/constants.h:37:27:static Stm32Handlers* Stm32HandlersSingleton::getInstance()	2
-../Core/Src/main.cpp:81:5:int main()	1
-../Core/Src/main.cpp:134:6:void SystemClock_Config()	3
-../Core/Src/main.cpp:180:13:void MX_SPI1_Init()	2
-../Core/Src/main.cpp:218:13:void MX_TIM3_Init()	5
-../Core/Src/main.cpp:271:13:void MX_TIM4_Init()	5
-../Core/Src/main.cpp:324:13:void MX_UART4_Init()	2
-../Core/Src/main.cpp:357:13:void MX_UART5_Init()	2
-../Core/Src/main.cpp:390:13:void MX_USART3_UART_Init()	2
-../Core/Src/main.cpp:423:13:void MX_GPIO_Init()	1
-../Core/Src/main.cpp:476:6:void Error_Handler()	1
+../Core/Src/main.cpp:84:5:int main()	1
+../Core/Src/main.cpp:157:6:void SystemClock_Config()	3
+../Core/Src/main.cpp:200:13:void MX_SPI1_Init()	2
+../Core/Src/main.cpp:236:13:void MX_TIM2_Init()	4
+../Core/Src/main.cpp:278:13:void MX_TIM3_Init()	5
+../Core/Src/main.cpp:329:13:void MX_TIM4_Init()	5
+../Core/Src/main.cpp:380:13:void MX_UART4_Init()	2
+../Core/Src/main.cpp:411:13:void MX_UART5_Init()	2
+../Core/Src/main.cpp:442:13:void MX_USART3_UART_Init()	2
+../Core/Src/main.cpp:473:13:void MX_GPIO_Init()	1
+../Core/Src/main.cpp:525:6:void Error_Handler()	1

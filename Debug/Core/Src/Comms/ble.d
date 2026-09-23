@@ -1,5 +1,6 @@
-Core/Src/Comms/ble.o: ../Core/Src/Comms/ble.cpp ../Core/Src/Comms/ble.h \
- ../Core/Inc/main.h ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
+Core/Src/Comms/ble.o: ../Core/Src/Comms/ble.cpp \
+ ../Core/Src/Comms/../Constants/constants.h ../Core/Inc/main.h \
+ ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
  ../Core/Inc/stm32f4xx_hal_conf.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h \
@@ -31,8 +32,8 @@ Core/Src/Comms/ble.o: ../Core/Src/Comms/ble.cpp ../Core/Src/Comms/ble.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pcd.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usb.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pcd_ex.h \
- ../Core/Src/Comms/remote_controller.h
-../Core/Src/Comms/ble.h:
+ ../Core/Src/Comms/ble.h ../Core/Src/Comms/remote_controller.h
+../Core/Src/Comms/../Constants/constants.h:
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
@@ -66,4 +67,5 @@ Core/Src/Comms/ble.o: ../Core/Src/Comms/ble.cpp ../Core/Src/Comms/ble.h \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pcd.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usb.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pcd_ex.h:
+../Core/Src/Comms/ble.h:
 ../Core/Src/Comms/remote_controller.h:

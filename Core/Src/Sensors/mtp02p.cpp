@@ -9,8 +9,6 @@
 #include "../Constants/constants.h"
 #include <stdio.h>
 
-MTF02P *MTF02PSingleton::mtf02p = NULL;
-
 bool MTF02P::micolink_decode(uint8_t data) {
 	if (micolink_parse_char(&msg, data) == false) {
 		return false;
@@ -128,16 +126,21 @@ void MTF02P::update(uint8_t c) {
 	micolink_decode(c);
 }
 
-float MTF02P::calibrateX(float gY) {
+// REMEMBER TO CHECK THE CORRECT AXIS FOR THE MTF
+float MTF02P::calibrateX(float gX, float gY) {
 	countX++;
-	currentCalibrationSumX += gY != 0 ? payload.flow_vel_x / -gY : 0;
-	return currentCalibrationSumX / countX;
+	float flowX = -payload.flow_vel_x;
+	currentCalibrationSumRX += flowX / gX;
+	currentCalibrationSumPX += flowX / gY;
+	printf("%d %f %f %f %f\n", flowX, gX, gY, currentCalibrationSumRX/countX, currentCalibrationSumPX/countX);
 }
 
-float MTF02P::calibrateY(float gX) {
+float MTF02P::calibrateY(float gX, float gY) {
 	countY++;
-	currentCalibrationSumY += gX != 0 ? payload.flow_vel_y / gX : 0;
-	return currentCalibrationSumY / countY;
+	float flowY = -payload.flow_vel_y;
+	currentCalibrationSumRY += flowY / gX;
+	currentCalibrationSumPY += flowY / gY;
+	printf("%d %f %f %f %f\n", flowY, gX, gY, currentCalibrationSumRY/countX, currentCalibrationSumPY/countX);
 }
 
 void MTF02P::dumpData() {

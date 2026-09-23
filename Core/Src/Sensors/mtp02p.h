@@ -67,39 +67,28 @@ typedef struct
 class MTF02P
 {
 private:
-	UART_HandleTypeDef *huart6;
+    UART_HandleTypeDef *huart6;
 
-    float currentCalibrationSumX = 0, currentCalibrationSumY = 0;
+    float currentCalibrationSumRX = 0,
+          currentCalibrationSumPX = 0,
+          currentCalibrationSumRY = 0,
+          currentCalibrationSumPY = 0;
     int countX = 0, countY = 0;
     int lastElapsedTime = 0;
 
     bool micolink_decode(uint8_t data);
-    bool micolink_check_sum(MICOLINK_MSG_t* msg);
-    bool micolink_parse_char(MICOLINK_MSG_t* msg, uint8_t data);
+    bool micolink_check_sum(MICOLINK_MSG_t *msg);
+    bool micolink_parse_char(MICOLINK_MSG_t *msg, uint8_t data);
+
 public:
     MICOLINK_MSG_t msg;
 
     MICOLINK_PAYLOAD_RANGE_SENSOR_t payload;
     MTF02P();
     void update(uint8_t c);
-    float calibrateX(float gY);
-    float calibrateY(float gY);
+    float calibrateX(float gX, float gY);
+    float calibrateY(float gX, float gY);
     void dumpData();
 };
-
-class MTF02PSingleton
-{
-public:
-    static MTF02P *mtf02p;
-    static MTF02P *getMTF02PInstance()
-    {
-        if (mtf02p == nullptr)
-        {
-            mtf02p = new MTF02P();
-        }
-        return mtf02p;
-    }
-};
-
 
 #endif /* SRC_SENSORS_MTP02P_H_ */

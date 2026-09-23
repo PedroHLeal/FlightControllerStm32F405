@@ -1,5 +1,5 @@
 Core/Src/Drone/drone.o: ../Core/Src/Drone/drone.cpp \
- ../Core/Src/Drone/drone.h ../Core/Src/Drone/../Constants/constants.h \
+ ../Core/Src/Drone/drone.h ../Core/Src/Drone/../Sensors/Gyro.h \
  ../Core/Inc/main.h ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
  ../Core/Inc/stm32f4xx_hal_conf.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h \
@@ -32,7 +32,11 @@ Core/Src/Drone/drone.o: ../Core/Src/Drone/drone.cpp \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pcd.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usb.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pcd_ex.h \
- ../Core/Src/Drone/../Sensors/Gyro.h \
+ ../Core/Src/Drone/../Sensors/../Calcs/DSPFilters/src/Filters.h \
+ ../Core/Src/Drone/../Sensors/../Calcs/DSPFilters/src/FilterOnePole.h \
+ ../Core/Src/Drone/../Sensors/../Calcs/DSPFilters/src/FilterTwoPole.h \
+ ../Core/Src/Drone/../Sensors/../Calcs/DSPFilters/src/FilterDerivative.h \
+ ../Core/Src/Drone/../Sensors/../Calcs/DSPFilters/src/RunningStatistics.h \
  ../Core/Src/Drone/../Sensors/mtp02p.h ../Core/Src/Drone/../Comms/ble.h \
  ../Core/Src/Drone/../Comms/remote_controller.h \
  ../Core/Src/Drone/../Calcs/estimations.h \
@@ -45,16 +49,14 @@ Core/Src/Drone/drone.o: ../Core/Src/Drone/drone.cpp \
  ../Core/Src/Drone/../Calcs/BasicLinearAlgebra/impl/BasicLinearAlgebra.h \
  ../Core/Src/Drone/../Calcs/BasicLinearAlgebra/impl/NotSoBasicLinearAlgebra.h \
  ../Core/Src/Drone/../Calcs/DSPFilters/src/Filters.h \
- ../Core/Src/Drone/../Calcs/DSPFilters/src/FilterOnePole.h \
- ../Core/Src/Drone/../Calcs/DSPFilters/src/FilterTwoPole.h \
- ../Core/Src/Drone/../Calcs/DSPFilters/src/FilterDerivative.h \
- ../Core/Src/Drone/../Calcs/DSPFilters/src/RunningStatistics.h \
  ../Core/Src/Drone/../motors.h ../Core/Src/Drone/../Constants/constants.h \
  ../Core/Src/Drone/../Drone/drone_position.h ../Core/Src/Drone/../pid.h \
  ../Core/Src/Drone/../Comms/hc-06.h ../Core/Src/Drone/../Sensors/gyro.h \
- ../Core/Src/Drone/../Calcs/estimations.h ../Core/Src/Drone/../timer.h
+ ../Core/Src/Drone/../Calcs/estimations.h ../Core/Src/Drone/../timer.h \
+ ../Core/Src/Drone/../globals.h ../Core/Src/Drone/../Sensors/Gyro.h \
+ ../Core/Src/Drone/../Sensors/mtp02p.h ../Core/Src/Drone/modes.h
 ../Core/Src/Drone/drone.h:
-../Core/Src/Drone/../Constants/constants.h:
+../Core/Src/Drone/../Sensors/Gyro.h:
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
@@ -88,7 +90,11 @@ Core/Src/Drone/drone.o: ../Core/Src/Drone/drone.cpp \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pcd.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usb.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pcd_ex.h:
-../Core/Src/Drone/../Sensors/Gyro.h:
+../Core/Src/Drone/../Sensors/../Calcs/DSPFilters/src/Filters.h:
+../Core/Src/Drone/../Sensors/../Calcs/DSPFilters/src/FilterOnePole.h:
+../Core/Src/Drone/../Sensors/../Calcs/DSPFilters/src/FilterTwoPole.h:
+../Core/Src/Drone/../Sensors/../Calcs/DSPFilters/src/FilterDerivative.h:
+../Core/Src/Drone/../Sensors/../Calcs/DSPFilters/src/RunningStatistics.h:
 ../Core/Src/Drone/../Sensors/mtp02p.h:
 ../Core/Src/Drone/../Comms/ble.h:
 ../Core/Src/Drone/../Comms/remote_controller.h:
@@ -102,10 +108,6 @@ Core/Src/Drone/drone.o: ../Core/Src/Drone/drone.cpp \
 ../Core/Src/Drone/../Calcs/BasicLinearAlgebra/impl/BasicLinearAlgebra.h:
 ../Core/Src/Drone/../Calcs/BasicLinearAlgebra/impl/NotSoBasicLinearAlgebra.h:
 ../Core/Src/Drone/../Calcs/DSPFilters/src/Filters.h:
-../Core/Src/Drone/../Calcs/DSPFilters/src/FilterOnePole.h:
-../Core/Src/Drone/../Calcs/DSPFilters/src/FilterTwoPole.h:
-../Core/Src/Drone/../Calcs/DSPFilters/src/FilterDerivative.h:
-../Core/Src/Drone/../Calcs/DSPFilters/src/RunningStatistics.h:
 ../Core/Src/Drone/../motors.h:
 ../Core/Src/Drone/../Constants/constants.h:
 ../Core/Src/Drone/../Drone/drone_position.h:
@@ -114,3 +116,7 @@ Core/Src/Drone/drone.o: ../Core/Src/Drone/drone.cpp \
 ../Core/Src/Drone/../Sensors/gyro.h:
 ../Core/Src/Drone/../Calcs/estimations.h:
 ../Core/Src/Drone/../timer.h:
+../Core/Src/Drone/../globals.h:
+../Core/Src/Drone/../Sensors/Gyro.h:
+../Core/Src/Drone/../Sensors/mtp02p.h:
+../Core/Src/Drone/modes.h:

@@ -33,6 +33,11 @@ Core/Src/pid.o: ../Core/Src/pid.cpp ../Core/Src/pid.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usb.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pcd_ex.h \
  ../Core/Src/Comms/remote_controller.h ../Core/Src/Sensors/gyro.h \
+ ../Core/Src/Sensors/../Calcs/DSPFilters/src/Filters.h \
+ ../Core/Src/Sensors/../Calcs/DSPFilters/src/FilterOnePole.h \
+ ../Core/Src/Sensors/../Calcs/DSPFilters/src/FilterTwoPole.h \
+ ../Core/Src/Sensors/../Calcs/DSPFilters/src/FilterDerivative.h \
+ ../Core/Src/Sensors/../Calcs/DSPFilters/src/RunningStatistics.h \
  ../Core/Src/Calcs/estimations.h ../Core/Src/Calcs/../Sensors/gyro.h \
  ../Core/Src/Calcs/../Sensors/mtp02p.h ../Core/Src/Calcs/filters.h \
  ../Core/Src/Calcs/BasicLinearAlgebra/BasicLinearAlgebra.h \
@@ -41,12 +46,8 @@ Core/Src/pid.o: ../Core/Src/pid.cpp ../Core/Src/pid.h \
  ../Core/Src/Calcs/BasicLinearAlgebra/impl/BasicLinearAlgebra.h \
  ../Core/Src/Calcs/BasicLinearAlgebra/impl/NotSoBasicLinearAlgebra.h \
  ../Core/Src/Calcs/DSPFilters/src/Filters.h \
- ../Core/Src/Calcs/DSPFilters/src/FilterOnePole.h \
- ../Core/Src/Calcs/DSPFilters/src/FilterTwoPole.h \
- ../Core/Src/Calcs/DSPFilters/src/FilterDerivative.h \
- ../Core/Src/Calcs/DSPFilters/src/RunningStatistics.h \
  ../Core/Src/Drone/drone_position.h \
- ../Core/Src/Calcs/DSPFilters/src/Filters.h ../Core/Src/sensors/gyro.h \
+ ../Core/Src/Calcs/DSPFilters/src/Filters.h ../Core/Src/Sensors/Gyro.h \
  ../Core/Src/Constants/constants.h
 ../Core/Src/pid.h:
 ../Core/Src/Comms/hc-06.h:
@@ -85,6 +86,11 @@ Core/Src/pid.o: ../Core/Src/pid.cpp ../Core/Src/pid.h \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pcd_ex.h:
 ../Core/Src/Comms/remote_controller.h:
 ../Core/Src/Sensors/gyro.h:
+../Core/Src/Sensors/../Calcs/DSPFilters/src/Filters.h:
+../Core/Src/Sensors/../Calcs/DSPFilters/src/FilterOnePole.h:
+../Core/Src/Sensors/../Calcs/DSPFilters/src/FilterTwoPole.h:
+../Core/Src/Sensors/../Calcs/DSPFilters/src/FilterDerivative.h:
+../Core/Src/Sensors/../Calcs/DSPFilters/src/RunningStatistics.h:
 ../Core/Src/Calcs/estimations.h:
 ../Core/Src/Calcs/../Sensors/gyro.h:
 ../Core/Src/Calcs/../Sensors/mtp02p.h:
@@ -95,11 +101,7 @@ Core/Src/pid.o: ../Core/Src/pid.cpp ../Core/Src/pid.h \
 ../Core/Src/Calcs/BasicLinearAlgebra/impl/BasicLinearAlgebra.h:
 ../Core/Src/Calcs/BasicLinearAlgebra/impl/NotSoBasicLinearAlgebra.h:
 ../Core/Src/Calcs/DSPFilters/src/Filters.h:
-../Core/Src/Calcs/DSPFilters/src/FilterOnePole.h:
-../Core/Src/Calcs/DSPFilters/src/FilterTwoPole.h:
-../Core/Src/Calcs/DSPFilters/src/FilterDerivative.h:
-../Core/Src/Calcs/DSPFilters/src/RunningStatistics.h:
 ../Core/Src/Drone/drone_position.h:
 ../Core/Src/Calcs/DSPFilters/src/Filters.h:
-../Core/Src/sensors/gyro.h:
+../Core/Src/Sensors/Gyro.h:
 ../Core/Src/Constants/constants.h:

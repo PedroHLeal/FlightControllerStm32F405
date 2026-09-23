@@ -6,8 +6,7 @@
  */
 
 #ifndef SRC_DRONE_DRONE_H_
-#include "../Constants/constants.h"
 
-void runDrone(Stm32Handlers *stm32Handlers);
+void run();
 
 #endif /* SRC_DRONE_DRONE_H_ */

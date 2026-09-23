@@ -1,0 +1,38 @@
+{
+  "version": 4,
+  "configurations": [
+    {
+      "name": "STM32",
+      "includePath": [
+        "${workspaceFolder}/Core/Inc",
+        "${workspaceFolder}/Drivers",
+        "${workspaceFolder}/Drivers/**",
+        "${workspaceFolder}/USB_DEVICE",
+        "${workspaceFolder}/USB_DEVICE/App",
+        "${workspaceFolder}/USB_DEVICE/Target",
+        "${workspaceFolder}/Middlewares",
+        "${workspaceFolder}/Middlewares/**"
+      ],
+      "browse": {
+        "path": [
+          "${workspaceFolder}/Core/Inc",
+          "${workspaceFolder}/Drivers",
+          "${workspaceFolder}/USB_DEVICE",
+          "${workspaceFolder}/USB_DEVICE/App",
+          "${workspaceFolder}/USB_DEVICE/Target",
+          "${workspaceFolder}/Middlewares",
+          "${workspaceFolder}/Middlewares/**"
+        ],
+        "limitSymbolsToIncludedHeaders": true
+      },
+      "defines": [
+        "STM32F405xx",
+        "USE_HAL_DRIVER"
+      ],
+      "compilerPath": "/opt/homebrew/bin/arm-none-eabi-gcc",
+      "cStandard": "c17",
+      "cppStandard": "c++14",
+      "intelliSenseMode": "gcc-arm"
+    }
+  ]
+}

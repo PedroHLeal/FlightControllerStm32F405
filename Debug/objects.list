@@ -9,6 +9,7 @@
 "./Core/Src/Drone/drone.o"
 "./Core/Src/Sensors/Gyro.o"
 "./Core/Src/Sensors/mtp02p.o"
+"./Core/Src/globals.o"
 "./Core/Src/main.o"
 "./Core/Src/motors.o"
 "./Core/Src/pid.o"

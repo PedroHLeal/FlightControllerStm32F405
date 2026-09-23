@@ -14,18 +14,19 @@
 #include "../motors.h"
 #include "../pid.h"
 #include "../timer.h"
+#include "../globals.h"
+#include "modes.h"
 
-Stm32Handlers *Stm32HandlersSingleton::stm32h = nullptr;
-MTF02P *mtf02 = MTF02PSingleton::getMTF02PInstance();
 ControllerReadings *readings;
 DronePosition p;
 uint8_t rxuart3byte = 0x00, rxuart2byte = 0x00;
 uint8_t rxuart4byte[5];
+uint32_t controlTicks = 0;
 
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
-    if (huart->Instance == USART3) {
-    	mtf02->update(rxuart3byte);
-    	HAL_UART_Receive_IT(huart, &rxuart3byte, 1);  // Re-arm interrupt
+	if (huart->Instance == USART3) {
+		mtf02p.update(rxuart3byte);
+		HAL_UART_Receive_IT(huart, &rxuart3byte, 1);  // Re-arm interrupt
 	}
 
 	if (huart->Instance == UART4) {
@@ -34,46 +35,129 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
 	}
 }
 
-void runDrone(Stm32Handlers *stm32Handlers) {
-	Motors *motors = MotorsSingleton::getInstance(stm32Handlers->htim3, stm32Handlers->htim4);
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
+	if (htim->Instance == TIM2) {
+		controlTicks++;
+	}
+}
 
+#if MODE == DEBUG_MODE
+void run() {
+	gyro.accelInit();
 	dwt_init();
 	initControllerBLE();
 	readings = getReadingsBLE();
 	readings->armed = 0;
+	readings->setPointPitch = 0;
+	readings->setPointRoll = 0;
+	readings->targetThrottle = 0;
 
-	Gyro *gyro = new Gyro();
 	HAL_Delay(1000);
-	while(!gyro->calibrate());
+	while (!gyro.calibrate())
+		;
 
-	motors->startup();
-//	motors->testMotors();
-
-	Estimator *e = new Estimator();
-
-	HAL_UART_Receive_IT(stm32Handlers->huart3, &rxuart3byte, 1);
-	HAL_UART_Receive_IT(stm32Handlers->huart4, rxuart4byte, 5);
+	HAL_UART_Receive_IT(stm32Handlers.huart3, &rxuart3byte, 1);
+	HAL_UART_Receive_IT(stm32Handlers.huart4, rxuart4byte, 5);
 
 	p.usePositioning = false;
 	p.useZPositioning = false;
+	float dt = 0.001;
+	HAL_TIM_Base_Start_IT(stm32Handlers.htim2);
+
+	float elapsed = 0;
 
 	while (1) {
-		float dt = dwt_dt_s(HAL_RCC_GetHCLKFreq());
-		if (!readings->armed) {
-			motors->writeAll(0);
-			resetPid(&p);
-			continue;
+		elapsed += dwt_dt_s(HAL_RCC_GetHCLKFreq());
+
+		if (controlTicks) {
+			controlTicks --;
+			gyro.updateData(dt);
+			estimator.calculateEstimations(&gyro, &mtf02p, dt);
+			runAngleModePid(&p, &gyro, &estimator, readings);
 		}
 
-		gyro->updateData(dt);
-		e->calculateEstimations(gyro, mtf02, dt);
-		calculatePidThrottle(&p, readings, e);
-		calculatePidPitch(&p, readings, gyro);
-		calculatePidRoll(&p, readings, gyro);
-		calculatePidPitchRate(&p, readings, gyro);
-		calculatePidRollRate(&p, readings, gyro);
-		calculatePidYaw(&p, gyro);
-		motors->writeDronePosition(&p);
+		if (elapsed >= 0.01) {
+			printf("%.2f\n", readings->setPointPitch);
+			elapsed = 0;
+		}
 	}
 }
+#endif
+
+#if MODE == RUN_DRONE
+void run() {
+	gyro.accelInit();
+	Motors *motors = MotorsSingleton::getInstance(stm32Handlers.htim3,
+			stm32Handlers.htim4);
+
+	initControllerBLE();
+	readings = getReadingsBLE();
+	readings->armed = 0;
+	readings->setPointPitch = 0;
+	readings->setPointRoll = 0;
+	readings->targetThrottle = 0;
+
+	HAL_Delay(1000);
+	while (!gyro.calibrate())
+		;
+
+	motors->startup();
+
+	HAL_UART_Receive_IT(stm32Handlers.huart3, &rxuart3byte, 1);
+	HAL_UART_Receive_IT(stm32Handlers.huart4, rxuart4byte, 5);
+
+	p.usePositioning = false;
+	p.useZPositioning = false;
+	float dt = 0.001;
+
+	HAL_TIM_Base_Start_IT(stm32Handlers.htim2);
+
+	while (1) {
+		if (controlTicks) {
+			controlTicks --;
+			if (!readings->armed) {
+				motors->writeAll(0);
+				resetPid(&p);
+				estimator.resetEstimations();
+				continue;
+			}
+			gyro.updateData(dt);
+			estimator.calculateEstimations(&gyro, &mtf02p, dt);
+			runAngleModePid(&p, &gyro, &estimator, readings);
+			motors->writeDronePosition(&p);
+		}
+	}
+}
+#endif
+
+#if MODE == CALIBRATE_OPTFLOW_X
+void run() {
+	float dt = 0.001;
+	while(1) {
+		gyro.updateData(dt);
+		mtf02p.calibrateX(gyro.gyro[0], gyro.gyro[1]);
+	}
+}
+#endif
+
+
+#if MODE == CALIBRATE_OPTFLOW_Y
+void run() {
+	float dt = 0.001;
+	while(1) {
+		gyro.updateData(dt);
+		mtf02p.calibrateY(gyro.gyro[0], gyro.gyro[1]);
+	}
+}
+#endif
+
+#if MODE == TEST_MOTORS
+void run() {
+	Motors *motors = MotorsSingleton::getInstance(stm32Handlers.htim3,
+			stm32Handlers.htim4);
+
+	motors->startup();
+	motors->testMotors();
+}
+#endif
 

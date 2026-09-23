@@ -32,7 +32,24 @@ Core/Src/Sensors/Gyro.o: ../Core/Src/Sensors/Gyro.cpp \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pcd.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usb.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pcd_ex.h \
- ../Core/Src/Sensors/../Constants/constants.h
+ ../Core/Src/Sensors/../Sensors/../Calcs/DSPFilters/src/Filters.h \
+ ../Core/Src/Sensors/../Sensors/../Calcs/DSPFilters/src/FilterOnePole.h \
+ ../Core/Src/Sensors/../Sensors/../Calcs/DSPFilters/src/FilterTwoPole.h \
+ ../Core/Src/Sensors/../Sensors/../Calcs/DSPFilters/src/FilterDerivative.h \
+ ../Core/Src/Sensors/../Sensors/../Calcs/DSPFilters/src/RunningStatistics.h \
+ ../Core/Src/Sensors/../Constants/constants.h \
+ ../Core/Src/Sensors/../globals.h ../Core/Src/Sensors/../Sensors/Gyro.h \
+ ../Core/Src/Sensors/../Sensors/mtp02p.h \
+ ../Core/Src/Sensors/../Calcs/estimations.h \
+ ../Core/Src/Sensors/../Calcs/../Sensors/gyro.h \
+ ../Core/Src/Sensors/../Calcs/../Sensors/mtp02p.h \
+ ../Core/Src/Sensors/../Calcs/filters.h \
+ ../Core/Src/Sensors/../Calcs/BasicLinearAlgebra/BasicLinearAlgebra.h \
+ ../Core/Src/Sensors/../Calcs/BasicLinearAlgebra/ElementStorage.h \
+ ../Core/Src/Sensors/../Calcs/BasicLinearAlgebra/impl/Types.h \
+ ../Core/Src/Sensors/../Calcs/BasicLinearAlgebra/impl/BasicLinearAlgebra.h \
+ ../Core/Src/Sensors/../Calcs/BasicLinearAlgebra/impl/NotSoBasicLinearAlgebra.h \
+ ../Core/Src/Sensors/../Calcs/DSPFilters/src/Filters.h
 ../Core/Src/Sensors/../Sensors/Gyro.h:
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
@@ -67,4 +84,22 @@ Core/Src/Sensors/Gyro.o: ../Core/Src/Sensors/Gyro.cpp \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pcd.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usb.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pcd_ex.h:
+../Core/Src/Sensors/../Sensors/../Calcs/DSPFilters/src/Filters.h:
+../Core/Src/Sensors/../Sensors/../Calcs/DSPFilters/src/FilterOnePole.h:
+../Core/Src/Sensors/../Sensors/../Calcs/DSPFilters/src/FilterTwoPole.h:
+../Core/Src/Sensors/../Sensors/../Calcs/DSPFilters/src/FilterDerivative.h:
+../Core/Src/Sensors/../Sensors/../Calcs/DSPFilters/src/RunningStatistics.h:
 ../Core/Src/Sensors/../Constants/constants.h:
+../Core/Src/Sensors/../globals.h:
+../Core/Src/Sensors/../Sensors/Gyro.h:
+../Core/Src/Sensors/../Sensors/mtp02p.h:
+../Core/Src/Sensors/../Calcs/estimations.h:
+../Core/Src/Sensors/../Calcs/../Sensors/gyro.h:
+../Core/Src/Sensors/../Calcs/../Sensors/mtp02p.h:
+../Core/Src/Sensors/../Calcs/filters.h:
+../Core/Src/Sensors/../Calcs/BasicLinearAlgebra/BasicLinearAlgebra.h:
+../Core/Src/Sensors/../Calcs/BasicLinearAlgebra/ElementStorage.h:
+../Core/Src/Sensors/../Calcs/BasicLinearAlgebra/impl/Types.h:
+../Core/Src/Sensors/../Calcs/BasicLinearAlgebra/impl/BasicLinearAlgebra.h:
+../Core/Src/Sensors/../Calcs/BasicLinearAlgebra/impl/NotSoBasicLinearAlgebra.h:
+../Core/Src/Sensors/../Calcs/DSPFilters/src/Filters.h:

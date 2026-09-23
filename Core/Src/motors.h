@@ -5,12 +5,6 @@
 #include "Constants/constants.h"
 #include "Drone/drone_position.h"
 
-// SETTING MOTOR PINS
-#define MOTOR_FL 5
-#define MOTOR_FR 4
-#define MOTOR_RL 3
-#define MOTOR_RR 2
-
 #define MIN_PW 1000
 #define MAX_PW 2000
 

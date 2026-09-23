@@ -4,18 +4,24 @@
  *  Created on: Apr 23, 2025
  *      Author: pedroleal
  */
+
 #include <math.h>
 #include "../Sensors/Gyro.h"
 #include "../Constants/constants.h"
+#include "../globals.h"
 #include <stdio.h>
 
+#define LP_FILTER
+
 Gyro::Gyro() {
-	Stm32Handlers *stm32h = Stm32HandlersSingleton::getInstance();
-	this->hspi1 = stm32h->hspi1;
-	this->accelInit();
+	accelFilterX = new FilterOnePole(LOWPASS, 15);
+	accelFilterY = new FilterOnePole(LOWPASS, 15);
+	accelFilterZ = new FilterOnePole(LOWPASS, 15);
 }
 
 void Gyro::accelInit() {
+	this->hspi1 = stm32Handlers.hspi1;
+
 	// Reset device and wait
 	accelWriteRegister(0x11, 0x01);  // DEVICE_CONFIG
 	HAL_Delay(100);
@@ -23,6 +29,30 @@ void Gyro::accelInit() {
 	accelWriteRegister(0x4E, 0x0F);
 	accelWriteRegister(0x4F, 0x66); // gyro config
 	accelWriteRegister(0x50, 0x26); // accel config
+
+#ifdef LP_FILTER
+	const uint8_t ACCEL_UI_BW_CODE = 7;   // lowest (tightest) BW option from the table
+	const uint8_t GYRO_UI_BW_CODE  = 2;   // keep your gyro BW for now (can tune later)
+
+	const uint8_t ACCEL_UI_ORD = 0b10;    // 3rd order (stronger attenuation)
+	const uint8_t GYRO_UI_ORD  = 0b01;    // 2nd order (reasonable compromise)
+
+	uint8_t ui_bw = accelReadRegister(0x52);
+
+	ui_bw = (ui_bw & ~0x0F) | (GYRO_UI_BW_CODE & 0x0F);
+
+	ui_bw = (ui_bw & ~0xF0) | ((ACCEL_UI_BW_CODE & 0x0F) << 4);
+
+	accelWriteRegister(0x52, ui_bw);
+
+	uint8_t gyro_ord = accelReadRegister(0x51);
+	gyro_ord = (gyro_ord & ~0x0C) | ((GYRO_UI_ORD & 0x03) << 2);
+	accelWriteRegister(0x51, gyro_ord);
+
+	uint8_t accel_ord = accelReadRegister(0x53);
+	accel_ord = (accel_ord & ~0x18) | ((ACCEL_UI_ORD & 0x03) << 3);
+	accelWriteRegister(0x53, accel_ord);
+#endif
 }
 
 uint8_t Gyro::accelReadRegister(uint8_t reg) {
@@ -76,6 +106,15 @@ void Gyro::processRawData(float dt) {
 	gyro[1] = rawGyro[1] - gyroCalibation[1];
 	gyro[2] = rawGyro[2] - gyroCalibation[2];
 
+	accelFilterX->input(accel[0]);
+	accel[0] = accelFilterX->output();
+
+	accelFilterY->input(accel[1]);
+	accel[1] = accelFilterY->output();
+
+	accelFilterZ->input(accel[2]);
+	accel[2] = accelFilterZ->output();
+
 //	printf("%.3f %.3f %.3f %d %d\n", accel[0],
 //			accel[1], accel[2], 1, -1);
 
@@ -91,10 +130,10 @@ void Gyro::processRawData(float dt) {
 			* RAD_TO_DEG; // ANGLEPITCH
 	accelAngle[2] = (atan2(accel[1], accel[2])) * RAD_TO_DEG;
 
-	rotationAngle[0] = 0.98 * (rotationAngle[0] + gyro[0] * dt)
-			+ 0.02 * accelAngle[0];
-	rotationAngle[1] = 0.98 * (rotationAngle[1] + gyro[1] * dt)
-			+ 0.02 * accelAngle[1];
+	rotationAngle[0] = 0.99 * (rotationAngle[0] + gyro[0] * dt)
+			+ 0.01 * accelAngle[0];
+	rotationAngle[1] = 0.99 * (rotationAngle[1] + gyro[1] * dt)
+			+ 0.01 * accelAngle[1];
 	rotationAngle[2] += gyro[2] * dt;
 
 	inertialAccel[0] = accel[0] * cos(rotationAngle[1] * DEG_TO_RAD)

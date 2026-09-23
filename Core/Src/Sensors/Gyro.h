@@ -9,6 +9,7 @@
 #define SRC_BMI270_BMI270_H_
 
 #include "main.h"
+#include "../Calcs/DSPFilters/src/Filters.h"
 
 class Gyro {
 public:
@@ -21,6 +22,7 @@ public:
 	float accelAngle[3] = { 0 };
 	float rotationAngle[3] = { 0 };
 	float inertialAccel[3] = { 0 };
+	FilterOnePole *accelFilterX, *accelFilterY, *accelFilterZ;
 	Gyro();
 	uint8_t accelReadRegister(uint8_t reg);
 	void accelWriteRegister(uint8_t reg, uint8_t data);
@@ -29,11 +31,11 @@ public:
 	void processRawData(float dt);
 	void dumpData();
 	bool calibrate();
+	void accelInit();
 private:
 	int calibrationRounds = 3000, currentRound = 0;
 	SPI_HandleTypeDef *hspi1;
 	float accelCalibration[3] = { 0 };
-	void accelInit();
 };
 
 class GyroSingleton

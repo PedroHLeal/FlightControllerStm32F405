@@ -34,8 +34,21 @@ Core/Src/main.o: ../Core/Src/main.cpp ../Core/Inc/main.h \
  ../USB_DEVICE/App/usb_device.h \
  ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_def.h \
  ../USB_DEVICE/Target/usbd_conf.h ../Core/Src/Drone/drone.h \
- ../Core/Src/Drone/../Constants/constants.h \
- ../Core/Src/Constants/constants.h
+ ../Core/Src/globals.h ../Core/Src/Sensors/Gyro.h \
+ ../Core/Src/Sensors/../Calcs/DSPFilters/src/Filters.h \
+ ../Core/Src/Sensors/../Calcs/DSPFilters/src/FilterOnePole.h \
+ ../Core/Src/Sensors/../Calcs/DSPFilters/src/FilterTwoPole.h \
+ ../Core/Src/Sensors/../Calcs/DSPFilters/src/FilterDerivative.h \
+ ../Core/Src/Sensors/../Calcs/DSPFilters/src/RunningStatistics.h \
+ ../Core/Src/Sensors/mtp02p.h ../Core/Src/Calcs/estimations.h \
+ ../Core/Src/Calcs/../Sensors/gyro.h \
+ ../Core/Src/Calcs/../Sensors/mtp02p.h ../Core/Src/Calcs/filters.h \
+ ../Core/Src/Calcs/BasicLinearAlgebra/BasicLinearAlgebra.h \
+ ../Core/Src/Calcs/BasicLinearAlgebra/ElementStorage.h \
+ ../Core/Src/Calcs/BasicLinearAlgebra/impl/Types.h \
+ ../Core/Src/Calcs/BasicLinearAlgebra/impl/BasicLinearAlgebra.h \
+ ../Core/Src/Calcs/BasicLinearAlgebra/impl/NotSoBasicLinearAlgebra.h \
+ ../Core/Src/Calcs/DSPFilters/src/Filters.h
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
@@ -73,5 +86,21 @@ Core/Src/main.o: ../Core/Src/main.cpp ../Core/Inc/main.h \
 ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_def.h:
 ../USB_DEVICE/Target/usbd_conf.h:
 ../Core/Src/Drone/drone.h:
-../Core/Src/Drone/../Constants/constants.h:
-../Core/Src/Constants/constants.h:
+../Core/Src/globals.h:
+../Core/Src/Sensors/Gyro.h:
+../Core/Src/Sensors/../Calcs/DSPFilters/src/Filters.h:
+../Core/Src/Sensors/../Calcs/DSPFilters/src/FilterOnePole.h:
+../Core/Src/Sensors/../Calcs/DSPFilters/src/FilterTwoPole.h:
+../Core/Src/Sensors/../Calcs/DSPFilters/src/FilterDerivative.h:
+../Core/Src/Sensors/../Calcs/DSPFilters/src/RunningStatistics.h:
+../Core/Src/Sensors/mtp02p.h:
+../Core/Src/Calcs/estimations.h:
+../Core/Src/Calcs/../Sensors/gyro.h:
+../Core/Src/Calcs/../Sensors/mtp02p.h:
+../Core/Src/Calcs/filters.h:
+../Core/Src/Calcs/BasicLinearAlgebra/BasicLinearAlgebra.h:
+../Core/Src/Calcs/BasicLinearAlgebra/ElementStorage.h:
+../Core/Src/Calcs/BasicLinearAlgebra/impl/Types.h:
+../Core/Src/Calcs/BasicLinearAlgebra/impl/BasicLinearAlgebra.h:
+../Core/Src/Calcs/BasicLinearAlgebra/impl/NotSoBasicLinearAlgebra.h:
+../Core/Src/Calcs/DSPFilters/src/Filters.h:

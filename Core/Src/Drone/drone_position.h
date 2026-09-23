@@ -50,6 +50,7 @@ typedef struct
 
     float yaw = 0;
     bool emergencyQuit = false;
+    float debugData = 0;
 } DronePosition;
 
 #endif /* SRC_DRONE_DRONE_POSITION_H_ */

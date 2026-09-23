@@ -1,14 +1,16 @@
-../Core/Src/pid.cpp:9:6:void calculatePidPosZ(DronePosition*, ControllerReadings, Estimator*)	1
-../Core/Src/pid.cpp:15:6:void calculatePidThrottle(DronePosition*, ControllerReadings*, Estimator*)	4
-../Core/Src/pid.cpp:26:6:void calculatePidPosX(DronePosition*, ControllerReadings, Estimator*)	3
-../Core/Src/pid.cpp:32:6:void calculatePidPosY(DronePosition*, ControllerReadings, Estimator*)	3
-../Core/Src/pid.cpp:38:6:void calculatePidVelX(DronePosition*, ControllerReadings, Estimator*)	6
-../Core/Src/pid.cpp:54:6:void calculatePidVelY(DronePosition*, ControllerReadings, Estimator*)	6
-../Core/Src/pid.cpp:70:6:void calculatePidPitch(DronePosition*, ControllerReadings*, Gyro*)	2
-../Core/Src/pid.cpp:80:6:void calculatePidRoll(DronePosition*, ControllerReadings*, Gyro*)	2
-../Core/Src/pid.cpp:90:6:void calculatePidPitchRate(DronePosition*, ControllerReadings*, Gyro*)	3
-../Core/Src/pid.cpp:100:6:void calculatePidRollRate(DronePosition*, ControllerReadings*, Gyro*)	3
-../Core/Src/pid.cpp:110:6:void calculatePidYaw(DronePosition*, Gyro*)	1
-../Core/Src/pid.cpp:115:6:void resetPid(DronePosition*)	1
-../Core/Src/pid.cpp:137:1:void __static_initialization_and_destruction_0(int, int)	3
-../Core/Src/pid.cpp:137:1:cpp)	1
+../Core/Src/pid.cpp:10:6:void calculatePidPosZ(DronePosition*, ControllerReadings, Estimator*)	1
+../Core/Src/pid.cpp:16:6:void calculatePidThrottle(DronePosition*, ControllerReadings*, Estimator*)	4
+../Core/Src/pid.cpp:27:6:void calculatePidPosX(DronePosition*, ControllerReadings, Estimator*)	3
+../Core/Src/pid.cpp:33:6:void calculatePidPosY(DronePosition*, ControllerReadings, Estimator*)	3
+../Core/Src/pid.cpp:39:6:void calculatePidVelX(DronePosition*, ControllerReadings, Estimator*)	6
+../Core/Src/pid.cpp:55:6:void calculatePidVelY(DronePosition*, ControllerReadings, Estimator*)	6
+../Core/Src/pid.cpp:71:6:void calculatePidPitch(DronePosition*, ControllerReadings*, Gyro*)	4
+../Core/Src/pid.cpp:82:6:void calculatePidRoll(DronePosition*, ControllerReadings*, Gyro*)	4
+../Core/Src/pid.cpp:93:6:void calculatePidPitchRate(DronePosition*, ControllerReadings*, Gyro*)	5
+../Core/Src/pid.cpp:108:6:void calculatePidRollRate(DronePosition*, ControllerReadings*, Gyro*)	5
+../Core/Src/pid.cpp:123:6:void calculatePidYaw(DronePosition*, Gyro*)	1
+../Core/Src/pid.cpp:128:6:void runAngleModePid(DronePosition*, Gyro*, Estimator*, ControllerReadings*)	1
+../Core/Src/pid.cpp:138:6:void runPositionModePid()	1
+../Core/Src/pid.cpp:142:6:void resetPid(DronePosition*)	1
+../Core/Src/pid.cpp:164:1:void __static_initialization_and_destruction_0(int, int)	3
+../Core/Src/pid.cpp:164:1:cpp)	1

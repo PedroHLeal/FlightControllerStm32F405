@@ -22,29 +22,4 @@ static inline float map(float x, float in_min, float in_max, float out_min, floa
   return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
 
-class Stm32Handlers {
-public:
-	SPI_HandleTypeDef *hspi1;
-	UART_HandleTypeDef *huart3;
-	UART_HandleTypeDef *huart4;
-	UART_HandleTypeDef *huart5;
-	TIM_HandleTypeDef *htim3, *htim4;
-};
-
-class Stm32HandlersSingleton
-{
-public:
-    static Stm32Handlers *getInstance()
-    {
-        if (stm32h == nullptr)
-        {
-        	stm32h = new Stm32Handlers();
-        }
-        return stm32h;
-    }
-
-private:
-    static Stm32Handlers *stm32h;
-};
-
 #endif /* SRC_CONSTANTS_CONSTANTS_H_ */
