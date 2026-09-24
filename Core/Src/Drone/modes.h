@@ -3,10 +3,9 @@
 
 #define RUN_DRONE 0
 #define DEBUG_MODE 1
-#define CALIBRATE_OPTFLOW_X 2
-#define CALIBRATE_OPTFLOW_Y 3
-#define TEST_MOTORS 4
+#define CALIBRATE_OPTFLOW 2
+#define TEST_MOTORS 3
 
-#define MODE CALIBRATE_OPTFLOW_X
+#define MODE RUN_DRONE
 
 #endif

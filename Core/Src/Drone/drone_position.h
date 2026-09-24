@@ -18,6 +18,10 @@ typedef struct
     float previousVelXError = 0;
     float usePositioning = false;
     float useZPositioning = false;
+    bool holding = false;
+    float holdPosX = 0, holdPosY = 0;
+    float slewedVelX = 0, slewedVelY = 0;
+    float holdBlend = 0;   // 0 = stick angle setpoint, 1 = velocity-loop setpoint, ramped at handover
 
     float targetVelY = 0;
     float velY = 0;

@@ -17,6 +17,14 @@ Gyro::Gyro() {
 	accelFilterX = new FilterOnePole(LOWPASS, 15);
 	accelFilterY = new FilterOnePole(LOWPASS, 15);
 	accelFilterZ = new FilterOnePole(LOWPASS, 15);
+
+	accelUncalFilterX = new FilterOnePole(LOWPASS, 15);
+	accelUncalFilterY = new FilterOnePole(LOWPASS, 15);
+	accelUncalFilterZ = new FilterOnePole(LOWPASS, 15);
+
+	gyroFilterX = new FilterOnePole(LOWPASS, 90);
+	gyroFilterY = new FilterOnePole(LOWPASS, 90);
+	gyroFilterZ = new FilterOnePole(LOWPASS, 90);
 }
 
 void Gyro::accelInit() {
@@ -87,18 +95,18 @@ void Gyro::accelReadData() {
 	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_SET);
 
 	for (int i = 0; i < 3; i++) {
-		rawAccel[i] = (int16_t) ((rx[2 * i] << 8) | rx[2 * i + 1]) / 4096.0;
+		rawAccel[i] = (int16_t) ((rx[2 * i] << 8) | rx[2 * i + 1]) / 4096.0f;
 		rawGyro[i] = (int16_t) ((rx[6 + 2 * i] << 8) | rx[6 + 2 * i + 1])
-				/ 131.0;
+				/ 131.0f;
 	}
 }
 
-void Gyro::updateData(float dt) {
+void Gyro::updateData(float dt, long us) {
 	this->accelReadData();
-	this->processRawData(dt);
+	this->processRawData(dt, us);
 }
 
-void Gyro::processRawData(float dt) {
+void Gyro::processRawData(float dt, long us) {
 	accel[0] = rawAccel[0] - accelCalibation[0];
 	accel[1] = rawAccel[1] - accelCalibation[1];
 	accel[2] = rawAccel[2];
@@ -106,14 +114,36 @@ void Gyro::processRawData(float dt) {
 	gyro[1] = rawGyro[1] - gyroCalibation[1];
 	gyro[2] = rawGyro[2] - gyroCalibation[2];
 
-	accelFilterX->input(accel[0]);
+	accelFilterX->input(accel[0], us);
 	accel[0] = accelFilterX->output();
 
-	accelFilterY->input(accel[1]);
+	accelFilterY->input(accel[1], us);
 	accel[1] = accelFilterY->output();
 
-	accelFilterZ->input(accel[2]);
+	accelFilterZ->input(accel[2], us);
 	accel[2] = accelFilterZ->output();
+
+	accelUncalFilterX->input(rawAccel[0], us);
+	accelUncal[0] = accelUncalFilterX->output();
+
+	accelUncalFilterY->input(rawAccel[1], us);
+	accelUncal[1] = accelUncalFilterY->output();
+
+	accelUncalFilterZ->input(rawAccel[2], us);
+	accelUncal[2] = accelUncalFilterZ->output();
+
+	gyroFilterX->input(gyro[0], us);
+	gyro[0] = gyroFilterX->output();
+
+	gyroFilterY->input(gyro[1], us);
+	gyro[1] = gyroFilterY->output();
+
+	gyroFilterZ->input(gyro[2], us);
+	gyro[2] = gyroFilterZ->output();
+
+	gyroHist[0][gyroHistIdx] = gyro[0];
+	gyroHist[1][gyroHistIdx] = gyro[1];
+	gyroHistIdx = (gyroHistIdx + 1) & (GYRO_HISTORY - 1);
 
 //	printf("%.3f %.3f %.3f %d %d\n", accel[0],
 //			accel[1], accel[2], 1, -1);
@@ -122,35 +152,64 @@ void Gyro::processRawData(float dt) {
 //				gyro[1], gyro[2], 30, -30);
 
 	// Detect accel angle
-	accelAngle[0] = (atan(
-			accel[1] / sqrt(accel[0] * accel[0] + accel[2] * accel[2])))
+	accelAngle[0] = (atanf(
+			accel[1] / sqrtf(accel[0] * accel[0] + accel[2] * accel[2])))
 			* RAD_TO_DEG; // ANGLEROLL
-	accelAngle[1] = (-atan(
-			accel[0] / sqrt(accel[1] * accel[1] + accel[2] * accel[2])))
+	accelAngle[1] = (-atanf(
+			accel[0] / sqrtf(accel[1] * accel[1] + accel[2] * accel[2])))
 			* RAD_TO_DEG; // ANGLEPITCH
-	accelAngle[2] = (atan2(accel[1], accel[2])) * RAD_TO_DEG;
+	accelAngle[2] = (atan2f(accel[1], accel[2])) * RAD_TO_DEG;
 
-	rotationAngle[0] = 0.99 * (rotationAngle[0] + gyro[0] * dt)
-			+ 0.01 * accelAngle[0];
-	rotationAngle[1] = 0.99 * (rotationAngle[1] + gyro[1] * dt)
-			+ 0.01 * accelAngle[1];
+	rotationAngle[0] = 0.998f * (rotationAngle[0] + gyro[0] * dt)
+			+ 0.002f * accelAngle[0];
+	rotationAngle[1] = 0.998f * (rotationAngle[1] + gyro[1] * dt)
+			+ 0.002f * accelAngle[1];
 	rotationAngle[2] += gyro[2] * dt;
 
-	inertialAccel[0] = accel[0] * cos(rotationAngle[1] * DEG_TO_RAD)
-			+ accel[1] * sin(rotationAngle[0] * DEG_TO_RAD)
-					* sin(rotationAngle[1] * DEG_TO_RAD)
-			+ accel[2] * sin(rotationAngle[1] * DEG_TO_RAD)
-					* cos(rotationAngle[0] * DEG_TO_RAD);
-	inertialAccel[1] = accel[0] * sin(rotationAngle[0] * DEG_TO_RAD)
-			* sin(rotationAngle[1] * DEG_TO_RAD)
-			+ accel[1] * cos(rotationAngle[0] * DEG_TO_RAD)
-			- accel[2] * sin(rotationAngle[0] * DEG_TO_RAD)
-					* cos(rotationAngle[1] * DEG_TO_RAD);
-	inertialAccel[2] = -accel[0] * sin(rotationAngle[1] * DEG_TO_RAD)
-			+ accel[1] * cos(rotationAngle[1] * DEG_TO_RAD)
-					* sin(rotationAngle[0] * DEG_TO_RAD)
-			+ accel[2] * cos(rotationAngle[1] * DEG_TO_RAD)
-					* cos(rotationAngle[0] * DEG_TO_RAD);
+	// Same estimate on the uncalibrated vector, referenced to true gravity
+	accelAngleUncal[0] = (atanf(
+			accelUncal[1] / sqrtf(accelUncal[0] * accelUncal[0] + accelUncal[2] * accelUncal[2])))
+			* RAD_TO_DEG;
+	accelAngleUncal[1] = (-atanf(
+			accelUncal[0] / sqrtf(accelUncal[1] * accelUncal[1] + accelUncal[2] * accelUncal[2])))
+			* RAD_TO_DEG;
+
+	float horizontalG = sqrtf(inertialAccel[0] * inertialAccel[0] + inertialAccel[1] * inertialAccel[1]);
+	uncalAccelFrozen = horizontalG > UNCAL_ACCEL_GATE_G && uncalFreezeMs < UNCAL_ACCEL_GATE_MAX_MS;
+	if (uncalAccelFrozen) {
+		uncalFreezeMs++;
+		rotationAngleUncal[0] += gyro[0] * dt;
+		rotationAngleUncal[1] += gyro[1] * dt;
+	} else {
+		uncalFreezeMs = 0;
+		rotationAngleUncal[0] = 0.998f * (rotationAngleUncal[0] + gyro[0] * dt)
+				+ 0.002f * accelAngleUncal[0];
+		rotationAngleUncal[1] = 0.998f * (rotationAngleUncal[1] + gyro[1] * dt)
+				+ 0.002f * accelAngleUncal[1];
+	}
+
+	float sr = sinf(rotationAngleUncal[0] * DEG_TO_RAD), cr = cosf(rotationAngleUncal[0] * DEG_TO_RAD);
+	float sp = sinf(rotationAngleUncal[1] * DEG_TO_RAD), cp = cosf(rotationAngleUncal[1] * DEG_TO_RAD);
+
+	inertialAccel[0] = accelUncal[0] * cp
+			+ accelUncal[1] * sr * sp
+			+ accelUncal[2] * sp * cr;
+	inertialAccel[1] = accelUncal[0] * sr * sp
+			+ accelUncal[1] * cr
+			- accelUncal[2] * sr * cp;
+	inertialAccel[2] = -accelUncal[0] * sp
+			+ accelUncal[1] * cp * sr
+			+ accelUncal[2] * cp * cr;
+}
+
+void Gyro::gyroDelayed(int delayMs, float *g0, float *g1) {
+	if (delayMs < 0)
+		delayMs = 0;
+	if (delayMs > GYRO_HISTORY - 1)
+		delayMs = GYRO_HISTORY - 1;
+	int idx = (gyroHistIdx - 1 - delayMs) & (GYRO_HISTORY - 1);
+	*g0 = gyroHist[0][idx];
+	*g1 = gyroHist[1][idx];
 }
 
 bool Gyro::calibrate() {

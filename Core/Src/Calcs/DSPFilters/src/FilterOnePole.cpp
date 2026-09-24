@@ -40,12 +40,7 @@ float FilterOnePole::input( float inVal, long us ) {
   // tau is set by the user in microseconds, but must be converted to samples here
   TauSamps = TauUS / ElapsedUS;
   
-  float ampFactor;
-#ifdef ARM_FLOAT
-  ampFactor = expf( -1.0 / TauSamps );     // this is 1 if called quickly
-#else
-  ampFactor = exp( -1.0 / TauSamps );      // this is 1 if called quickly
-#endif
+  float ampFactor = expf( -1.0f / TauSamps );     // this is 1 if called quickly
   
   Y = (1.0-ampFactor)*X + ampFactor*Ylast;     // set the new value
 

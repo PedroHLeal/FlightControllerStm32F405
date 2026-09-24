@@ -12,10 +12,17 @@
 #include <stdbool.h>
 #include <string.h>
 #include "main.h"
+#include "Gyro.h"
 
 #define MICOLINK_MSG_HEAD 0xEF
 #define MICOLINK_MAX_PAYLOAD_LEN 64
 #define MICOLINK_MAX_LEN MICOLINK_MAX_PAYLOAD_LEN + 7
+
+#define FLOW_MIN_QUALITY 70
+
+// calibration sweeps gyro delays 0 .. (FLOW_CAL_DELAYS-1)*STEP ms
+#define FLOW_CAL_DELAYS 21
+#define FLOW_CAL_DELAY_STEP_MS 10
 
 /*
     Message ID
@@ -69,12 +76,14 @@ class MTF02P
 private:
     UART_HandleTypeDef *huart6;
 
-    float currentCalibrationSumRX = 0,
-          currentCalibrationSumPX = 0,
-          currentCalibrationSumRY = 0,
-          currentCalibrationSumPY = 0;
-    int countX = 0, countY = 0;
-    int lastElapsedTime = 0;
+    // least-squares sums of raw sensor flow vs gyro, one set per candidate gyro delay
+    double calG0G0[FLOW_CAL_DELAYS], calG0G1[FLOW_CAL_DELAYS], calG1G1[FLOW_CAL_DELAYS];
+    double calFxG0[FLOW_CAL_DELAYS], calFxG1[FLOW_CAL_DELAYS];
+    double calFyG0[FLOW_CAL_DELAYS], calFyG1[FLOW_CAL_DELAYS];
+    double calFxFx = 0, calFyFy = 0;
+    int rotationSamples = 0;
+    float forwardSumX = 0, forwardSumY = 0, rightSumX = 0, rightSumY = 0;
+    int forwardSamples = 0, rightSamples = 0;
 
     bool micolink_decode(uint8_t data);
     bool micolink_check_sum(MICOLINK_MSG_t *msg);
@@ -86,8 +95,12 @@ public:
     MICOLINK_PAYLOAD_RANGE_SENSOR_t payload;
     MTF02P();
     void update(uint8_t c);
-    float calibrateX(float gX, float gY);
-    float calibrateY(float gX, float gY);
+    bool flowUsable();
+    void calibrationReset();
+    void calibrationAccumulateRotation(Gyro *g);
+    void calibrationAccumulateForward();
+    void calibrationAccumulateRight();
+    void calibrationReport();
     void dumpData();
 };
 
