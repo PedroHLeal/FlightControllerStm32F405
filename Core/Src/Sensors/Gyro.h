@@ -13,8 +13,15 @@
 
 // While the drone is accelerating horizontally the accelerometer cannot tell tilt from
 // acceleration, so the estimator-path attitude runs on gyro alone until it calms down.
-#define UNCAL_ACCEL_GATE_G 0.06f       // horizontal accel (g) above which the accel correction is frozen
-#define UNCAL_ACCEL_GATE_MAX_MS 2000   // never freeze longer than this, so the attitude can always re-converge
+// Estimator-path attitude, Betaflight-style: the accel corrects the attitude only when its
+// magnitude is near 1 g (the sensor's own test, independent of the attitude, so it cannot lock),
+// and slowly, so transient accelerations average out instead of leaking into tilt. Fast gain
+// for a few seconds after boot so the slow filter finds level quickly.
+#define UNCAL_ACCEL_MIN_G 0.85f
+#define UNCAL_ACCEL_MAX_G 1.15f
+#define UNCAL_ACCEL_WEIGHT 0.0005f        // per 1 kHz tick: tau 2 s
+#define UNCAL_ACCEL_WEIGHT_BOOT 0.02f     // tau 50 ms while converging after boot
+#define UNCAL_BOOT_FAST_MS 3000
 
 class Gyro {
 public:
@@ -30,7 +37,8 @@ public:
 	// and its own attitude estimate can cancel it. Feeds inertialAccel (estimators only);
 	// the calibrated path above keeps "level" = boot attitude for the angle PIDs.
 	float accelUncal[3] = { 0 };
-	bool uncalAccelFrozen = false;
+	bool uncalAccelFrozen = false;   // true while the accel magnitude is outside the trusted band
+	int uncalAgeMs = 0;
 	float accelAngleUncal[3] = { 0 };
 	float rotationAngleUncal[3] = { 0 };
 	float inertialAccel[3] = { 0 };
@@ -43,16 +51,15 @@ public:
 	void accelReadData();
 	void updateData(float dt, long us);
 	void processRawData(float dt, long us);
-	void gyroDelayed(int delayMs, float *g0, float *g1);
+	void gyroDelayed(int delayMs, float *g0, float *g1, float *g2 = 0);
 	void dumpData();
 	bool calibrate();
 	void accelInit();
 private:
 	// one entry per 1 kHz update, so index distance == milliseconds
 	static const int GYRO_HISTORY = 256;
-	float gyroHist[2][GYRO_HISTORY] = {};
+	float gyroHist[3][GYRO_HISTORY] = {};
 	uint16_t gyroHistIdx = 0;
-	int uncalFreezeMs = 0;
 	int calibrationRounds = 3000, currentRound = 0;
 	SPI_HandleTypeDef *hspi1;
 	float accelCalibration[3] = { 0 };

@@ -24,8 +24,8 @@ Kalman2d::Kalman2d(float inputAccuracy, float measurementAccuracy, int measureme
 {
     this->inputAccuracy = inputAccuracy;
     this->measurementAccuracy = measurementAccuracy;
-    this->measurementDelaySteps = measurementDelaySteps < POS_HISTORY ? measurementDelaySteps : POS_HISTORY - 1;
-    H = {1, 0};
+    this->measurementDelaySteps = measurementDelaySteps < HISTORY ? measurementDelaySteps : HISTORY - 1;
+    H = {0, 1};   // the measurement is the velocity state
     I = {1, 0,
          0, 1};
     reset(0, 0);
@@ -37,10 +37,10 @@ void Kalman2d::reset(float posVariance, float velVariance)
          0};
     P = {posVariance, 0,
          0, velVariance};
-    pos = vel = s00 = s10 = 0;
-    for (int i = 0; i < POS_HISTORY; i++)
-        posHist[i] = 0;
-    posHistIdx = 0;
+    pos = vel = 0;
+    for (int i = 0; i < HISTORY; i++)
+        velHist[i] = 0;
+    histIdx = 0;
     lastHistIdx = 0;
 }
 
@@ -56,36 +56,36 @@ void Kalman2d::predict(float input, float dt)
     S = F * S + G * input;
     P = F * P * ~F + Q;
 
-    // predicted position enters the history; update() overwrites it with the corrected one
-    lastHistIdx = posHistIdx;
-    posHist[lastHistIdx] = S(0, 0);
-    posHistIdx = (posHistIdx + 1) % POS_HISTORY;
+    // predicted velocity enters the history; update() overwrites it with the corrected one
+    lastHistIdx = histIdx;
+    velHist[lastHistIdx] = S(1, 0);
+    histIdx = (histIdx + 1) % HISTORY;
 
-    pos = s00 = S(0, 0);
-    vel = s10 = S(1, 0);
+    pos = S(0, 0);
+    vel = S(1, 0);
 }
 
-void Kalman2d::update(float measurement)
+void Kalman2d::update(float velocityMeasurement)
 {
-    // the measurement describes where we were measurementDelaySteps ago, not now
-    float predictedThen = measurementDelaySteps == 0 ? S(0, 0)
-            : posHist[(lastHistIdx - measurementDelaySteps + POS_HISTORY) % POS_HISTORY];
-    float innovation = measurement - predictedThen;
-    float innovationVariance = P(0, 0) + measurementAccuracy * measurementAccuracy;
+    // the measurement describes how fast we were measurementDelaySteps ago, not now
+    float predictedThen = measurementDelaySteps == 0 ? S(1, 0)
+            : velHist[(lastHistIdx - measurementDelaySteps + HISTORY) % HISTORY];
+    float innovation = velocityMeasurement - predictedThen;
+    float innovationVariance = P(1, 1) + measurementAccuracy * measurementAccuracy;
     K = P * ~H * (1.0f / innovationVariance);
     S = S + K * innovation;
     P = (I - K * H) * P;
 
-    // corrected position goes into the history, so later corrections are not applied twice
-    posHist[lastHistIdx] = S(0, 0);
+    // corrected velocity goes into the history, so later corrections are not applied twice
+    velHist[lastHistIdx] = S(1, 0);
 
-    pos = s00 = S(0, 0);
-    vel = s10 = S(1, 0);
+    pos = S(0, 0);
+    vel = S(1, 0);
 }
 
-float Kalman2d::filter(float input, float measurement, float dt)
+float Kalman2d::filter(float input, float velocityMeasurement, float dt)
 {
     predict(input, dt);
-    update(measurement);
-    return pos;
+    update(velocityMeasurement);
+    return vel;
 }

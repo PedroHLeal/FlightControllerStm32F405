@@ -14,14 +14,14 @@
 // ----------- POSITION HOLD (cm, cm/s, deg) -------------
 #define VELOCITY_HOLD 1     // 0: never use the flow loops, sticks are angle setpoints (plain angle mode)
 #define POSITION_HOLD 1     // 0: sticks centred just nulls velocity (no hold point)
-#define POS_P_GAIN 0.6
+#define POS_P_GAIN 3   // cm/s per cm, tau 2 s (was 0.2, tau 5 s: too slow to pull back to the hold point)
 #define POS_HOLD_MAX_VEL 30
 #define POS_HOLD_MAX_ANGLE 15
 #define STICK_VEL_SCALE 4   // stick is +-25, so full deflection = 100 cm/s
 #define VEL_TARGET_SLEW 200 // cm/s per second the velocity target may change: shapes stick steps and hold engagement
-#define HOLD_BLEND_MS 300   // handover ramp between stick angle and velocity-loop angle setpoints
+#define HOLD_BLEND_MS 0     // handover ramp between stick angle and velocity-loop angle setpoints; 0 = instant switch
 
-#define VEL_P_GAIN 0.3
+#define VEL_P_GAIN 0.4   // ~2.7 cm/s² per cm/s, tau ~0.37 s (0.25 hunted, 0.12 drifted)
 #define VEL_I_GAIN 0.0001
 #define VEL_D_GAIN 0
 #define VEL_MAX_I 2
@@ -32,7 +32,7 @@
 
 // ----------- RATE PID --------------
 
-#define PITCH_ROLL_RATE_P_GAIN 0.07
+#define PITCH_ROLL_RATE_P_GAIN 0.06
 
 #define PITCH_ROLL_RATE_I_GAIN 0.00007
 #define MAX_I_RATE 5
@@ -47,8 +47,7 @@
 
 void calculatePidPosZ(DronePosition *p, ControllerReadings r, Estimator *e);
 void calculatePidThrottle(DronePosition *p, ControllerReadings *r, Estimator *e);
-void calculatePidPosX(DronePosition *p, Estimator *e);
-void calculatePidPosY(DronePosition *p, Estimator *e);
+void calculatePidPos(DronePosition *p, Estimator *e);
 void calculatePidVelX(DronePosition *p, Estimator *e);
 void calculatePidVelY(DronePosition *p, Estimator *e);
 void calculatePidPitch(DronePosition *p, ControllerReadings *r, Gyro *g);

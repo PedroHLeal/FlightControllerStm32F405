@@ -143,6 +143,7 @@ void Gyro::processRawData(float dt, long us) {
 
 	gyroHist[0][gyroHistIdx] = gyro[0];
 	gyroHist[1][gyroHistIdx] = gyro[1];
+	gyroHist[2][gyroHistIdx] = gyro[2];
 	gyroHistIdx = (gyroHistIdx + 1) & (GYRO_HISTORY - 1);
 
 //	printf("%.3f %.3f %.3f %d %d\n", accel[0],
@@ -174,19 +175,16 @@ void Gyro::processRawData(float dt, long us) {
 			accelUncal[0] / sqrtf(accelUncal[1] * accelUncal[1] + accelUncal[2] * accelUncal[2])))
 			* RAD_TO_DEG;
 
-	float horizontalG = sqrtf(inertialAccel[0] * inertialAccel[0] + inertialAccel[1] * inertialAccel[1]);
-	uncalAccelFrozen = horizontalG > UNCAL_ACCEL_GATE_G && uncalFreezeMs < UNCAL_ACCEL_GATE_MAX_MS;
-	if (uncalAccelFrozen) {
-		uncalFreezeMs++;
-		rotationAngleUncal[0] += gyro[0] * dt;
-		rotationAngleUncal[1] += gyro[1] * dt;
-	} else {
-		uncalFreezeMs = 0;
-		rotationAngleUncal[0] = 0.998f * (rotationAngleUncal[0] + gyro[0] * dt)
-				+ 0.002f * accelAngleUncal[0];
-		rotationAngleUncal[1] = 0.998f * (rotationAngleUncal[1] + gyro[1] * dt)
-				+ 0.002f * accelAngleUncal[1];
-	}
+	float accelMagG = sqrtf(accelUncal[0] * accelUncal[0] + accelUncal[1] * accelUncal[1]
+			+ accelUncal[2] * accelUncal[2]);
+	uncalAccelFrozen = accelMagG < UNCAL_ACCEL_MIN_G || accelMagG > UNCAL_ACCEL_MAX_G;
+	if (uncalAgeMs < UNCAL_BOOT_FAST_MS)
+		uncalAgeMs++;
+	float w = uncalAgeMs < UNCAL_BOOT_FAST_MS ? UNCAL_ACCEL_WEIGHT_BOOT : UNCAL_ACCEL_WEIGHT;
+	if (uncalAccelFrozen)
+		w = 0;
+	rotationAngleUncal[0] = (1.0f - w) * (rotationAngleUncal[0] + gyro[0] * dt) + w * accelAngleUncal[0];
+	rotationAngleUncal[1] = (1.0f - w) * (rotationAngleUncal[1] + gyro[1] * dt) + w * accelAngleUncal[1];
 
 	float sr = sinf(rotationAngleUncal[0] * DEG_TO_RAD), cr = cosf(rotationAngleUncal[0] * DEG_TO_RAD);
 	float sp = sinf(rotationAngleUncal[1] * DEG_TO_RAD), cp = cosf(rotationAngleUncal[1] * DEG_TO_RAD);
@@ -202,7 +200,7 @@ void Gyro::processRawData(float dt, long us) {
 			+ accelUncal[2] * cp * cr;
 }
 
-void Gyro::gyroDelayed(int delayMs, float *g0, float *g1) {
+void Gyro::gyroDelayed(int delayMs, float *g0, float *g1, float *g2) {
 	if (delayMs < 0)
 		delayMs = 0;
 	if (delayMs > GYRO_HISTORY - 1)
@@ -210,6 +208,8 @@ void Gyro::gyroDelayed(int delayMs, float *g0, float *g1) {
 	int idx = (gyroHistIdx - 1 - delayMs) & (GYRO_HISTORY - 1);
 	*g0 = gyroHist[0][idx];
 	*g1 = gyroHist[1][idx];
+	if (g2)
+		*g2 = gyroHist[2][idx];
 }
 
 bool Gyro::calibrate() {

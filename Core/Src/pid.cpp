@@ -31,14 +31,15 @@ static float slewToward(float current, float desired, float maxStep)
     return current + d;
 }
 
-void calculatePidPosX(DronePosition *p, Estimator *e)
+// position error lives in the arm-heading frame; the velocity loop wants body-frame targets
+void calculatePidPos(DronePosition *p, Estimator *e)
 {
-    p->targetVelX = constrain((p->holdPosX - e->estimatedPosX) * POS_P_GAIN, -POS_HOLD_MAX_VEL, POS_HOLD_MAX_VEL);
-}
-
-void calculatePidPosY(DronePosition *p, Estimator *e)
-{
-    p->targetVelY = constrain((p->holdPosY - e->estimatedPosY) * POS_P_GAIN, -POS_HOLD_MAX_VEL, POS_HOLD_MAX_VEL);
+    float tx = constrain((p->holdPosX - e->estimatedPosX) * POS_P_GAIN, -POS_HOLD_MAX_VEL, POS_HOLD_MAX_VEL);
+    float ty = constrain((p->holdPosY - e->estimatedPosY) * POS_P_GAIN, -POS_HOLD_MAX_VEL, POS_HOLD_MAX_VEL);
+    float psi = FRAME_YAW_SIGN * e->yawDeg * DEG_TO_RAD;
+    float c = cosf(psi), s = sinf(psi);
+    p->targetVelX = c * tx + s * ty;
+    p->targetVelY = -s * tx + c * ty;
 }
 
 void calculatePidVelX(DronePosition *p, Estimator *e)
@@ -121,7 +122,7 @@ void runPositionHold(DronePosition *p, Estimator *e, ControllerReadings *r)
     // ramp the handover instead of switching the angle setpoint in one tick; while the hold is
     // off, the last hold command is kept and faded out rather than snapped to zero
     float blendTarget = (VELOCITY_HOLD && e->isPositioningAvailable) ? 1.0f : 0.0f;
-    p->holdBlend = slewToward(p->holdBlend, blendTarget, 1.0f / HOLD_BLEND_MS);
+    p->holdBlend = HOLD_BLEND_MS > 0 ? slewToward(p->holdBlend, blendTarget, 1.0f / HOLD_BLEND_MS) : blendTarget;
 
     if (!VELOCITY_HOLD)
     {
@@ -154,8 +155,7 @@ void runPositionHold(DronePosition *p, Estimator *e, ControllerReadings *r)
             p->velXI = 0;
             p->velYI = 0;
         }
-        calculatePidPosX(p, e);
-        calculatePidPosY(p, e);
+        calculatePidPos(p, e);
     }
     else
     {

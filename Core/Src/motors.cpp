@@ -1,5 +1,6 @@
 #include "motors.h"
 #include <stdio.h>
+#include "Sensors/battery.h"
 
 Motors *MotorsSingleton::m = nullptr;
 
@@ -91,10 +92,12 @@ void Motors::writeDronePosition(DronePosition *p)
     float rightIntensity = p->roll;
     float leftIntensity = -p->roll;
 
-    float motorFL = p->throttle + leftIntensity + frontIntensity + p->yaw;
-    float motorFR = p->throttle + rightIntensity + frontIntensity - p->yaw;
-    float motorRL = p->throttle + leftIntensity + rearIntensity - p->yaw;
-    float motorRR = p->throttle + rightIntensity + rearIntensity + p->yaw;
+    // thrust per command falls as the pack sags; scaling the whole mix keeps the tune constant
+    float comp = batterySagCompensation();
+    float motorFL = (p->throttle + leftIntensity + frontIntensity + p->yaw) * comp;
+    float motorFR = (p->throttle + rightIntensity + frontIntensity - p->yaw) * comp;
+    float motorRL = (p->throttle + leftIntensity + rearIntensity - p->yaw) * comp;
+    float motorRR = (p->throttle + rightIntensity + rearIntensity + p->yaw) * comp;
 //    printf("%.2f %.2f %.2f %.2f\n", constrain(motorFL, 0, 180), constrain(motorFR, 0, 180), constrain(motorRL, 0, 180),constrain(motorRR, 0, 180));
 
     writeFL(constrain(motorFL, 0, 180));
